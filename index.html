@@ -1,0 +1,867 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+<meta charset="UTF-8"/>
+<meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+<title>Vengeance</title>
+<link rel="preconnect" href="https://fonts.googleapis.com"/>
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin/>
+<link href="https://fonts.googleapis.com/css2?family=Anton&family=Crimson+Pro:ital,wght@0,300;0,400;1,300&family=Share+Tech+Mono&display=swap" rel="stylesheet"/>
+<style>
+*,*::before,*::after{box-sizing:border-box;margin:0;padding:0;}
+:root{
+  --bg:#080608;--bg2:#0f0a0d;--bg3:#161018;--bg4:#1e1620;
+  --border:#2a1a22;--border2:#3a2030;
+  --texte:#d8c8d0;--texte-dim:#706070;--texte-clair:#f0e8ec;
+  --rouge:#c01020;--rouge-vif:#e02030;--rouge-dim:#6a0810;
+  --rouge-sang:#8a0010;
+  --gris:#3a3040;--gris-clair:#5a5060;
+  --or:#c0a020;--vert:#1a7030;
+  --mono:'Share Tech Mono',monospace;
+  --titre:'Anton',sans-serif;
+  --corps:'Crimson Pro',Georgia,serif;
+}
+html,body{height:100%;background:var(--bg);color:var(--texte);font-family:var(--corps);font-size:16px;line-height:1.7;overflow-x:hidden;}
+
+/* Grain film noir */
+body::before{content:'';position:fixed;inset:0;
+  background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='200' height='200'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='200' height='200' filter='url(%23n)' opacity='0.04'/%3E%3C/svg%3E");
+  pointer-events:none;z-index:0;}
+
+/* Ligne rouge latérale */
+body::after{content:'';position:fixed;left:0;top:0;bottom:0;width:3px;background:linear-gradient(180deg,transparent,var(--rouge),var(--rouge-dim),transparent);pointer-events:none;z-index:0;}
+
+.studio-bar{position:relative;z-index:10;background:#050305;border-bottom:2px solid var(--rouge-dim);padding:6px 16px;text-align:center;}
+.studio-bar a{color:var(--texte-dim);font-size:11px;text-decoration:none;letter-spacing:3px;font-family:var(--mono);transition:color 0.2s;}
+.studio-bar a:hover{color:var(--rouge-vif);}
+
+/* ── INTRO ── */
+#ecran-intro{position:fixed;inset:0;z-index:300;background:var(--bg);display:flex;flex-direction:column;align-items:center;justify-content:center;padding:24px;overflow:hidden;}
+
+.intro-inner{max-width:580px;width:100%;text-align:left;position:relative;z-index:1;}
+.intro-tag{font-family:var(--mono);font-size:10px;letter-spacing:5px;color:var(--rouge);text-transform:uppercase;margin-bottom:16px;animation:app 0.6s ease 0.1s both;}
+.intro-titre{font-family:var(--titre);font-size:clamp(80px,20vw,160px);font-weight:400;color:var(--texte-clair);line-height:0.85;letter-spacing:2px;text-transform:uppercase;text-shadow:0 0 60px rgba(192,16,32,0.4),4px 4px 0 rgba(192,16,32,0.2);animation:app 0.6s ease 0.2s both;}
+.intro-barre{width:100%;height:2px;background:linear-gradient(90deg,var(--rouge-vif),var(--rouge-dim),transparent);margin:18px 0;animation:largeur 0.8s ease 0.4s both;}
+@keyframes largeur{from{width:0}to{width:100%}}
+.intro-sous{font-family:var(--mono);font-size:10px;letter-spacing:3px;color:var(--texte-dim);text-transform:uppercase;margin-bottom:28px;animation:app 0.6s ease 0.45s both;}
+.intro-accroche{font-family:var(--corps);font-size:15px;font-style:italic;color:var(--texte-dim);line-height:1.9;margin-bottom:44px;border-left:2px solid var(--rouge-dim);padding-left:16px;animation:app 0.6s ease 0.55s both;max-width:440px;}
+.intro-btns{display:flex;gap:12px;flex-wrap:wrap;animation:app 0.6s ease 0.7s both;}
+.btn-intro-p{background:var(--rouge);border:none;color:#fff;font-family:var(--titre);font-size:18px;font-weight:400;letter-spacing:4px;padding:14px 40px;cursor:pointer;transition:all 0.2s;text-transform:uppercase;clip-path:polygon(0 0,calc(100% - 10px) 0,100% 10px,100% 100%,10px 100%,0 calc(100% - 10px));}
+.btn-intro-p:hover{background:var(--rouge-vif);box-shadow:0 0 20px rgba(192,16,32,0.4);}
+.btn-intro-s{display:none;background:none;border:1px solid var(--border2);color:var(--texte-dim);font-family:var(--mono);font-size:11px;letter-spacing:3px;padding:14px 24px;cursor:pointer;transition:all 0.2s;text-transform:uppercase;}
+.btn-intro-s:hover{border-color:var(--rouge-dim);color:var(--texte);}
+@keyframes app{from{opacity:0;transform:translateX(-20px);}to{opacity:1;transform:translateX(0);}}
+
+/* ── SETUP ── */
+#ecran-setup{display:none;position:fixed;inset:0;z-index:200;background:var(--bg);overflow-y:auto;-webkit-overflow-scrolling:touch;padding:20px;}
+.setup-wrap{max-width:620px;margin:auto;padding:40px 0;}
+.setup-entete{margin-bottom:36px;padding-bottom:16px;border-bottom:2px solid var(--rouge-dim);}
+.setup-ref{font-family:var(--mono);font-size:9px;letter-spacing:4px;color:var(--rouge);text-transform:uppercase;margin-bottom:6px;}
+.setup-titre{font-family:var(--titre);font-size:40px;color:var(--texte-clair);letter-spacing:2px;text-transform:uppercase;}
+.setup-bloc{margin-bottom:28px;}
+.setup-label{font-family:var(--mono);font-size:10px;letter-spacing:3px;text-transform:uppercase;color:var(--texte-dim);display:block;margin-bottom:8px;}
+.setup-input{width:100%;background:var(--bg3);border:none;border-bottom:2px solid var(--border2);color:var(--texte-clair);font-family:var(--mono);font-size:14px;padding:10px 0;outline:none;transition:border-color 0.2s;border-radius:0;}
+.setup-input:focus{border-bottom-color:var(--rouge);}
+.setup-input::placeholder{color:var(--texte-dim);}
+
+/* Perso grid */
+.perso-grid{display:grid;grid-template-columns:1fr 1fr;gap:12px;}
+.perso-carte{background:var(--bg3);border:2px solid var(--border);padding:20px 16px;cursor:pointer;transition:all 0.2s;position:relative;overflow:hidden;}
+.perso-carte::before{content:'';position:absolute;top:0;left:0;right:0;height:3px;background:var(--border);transition:background 0.2s;}
+.perso-carte:hover{border-color:var(--border2);}
+.perso-carte.sel{border-color:var(--rouge);background:rgba(192,16,32,0.06);}
+.perso-carte.sel::before{background:var(--rouge);}
+.perso-genre{font-family:var(--mono);font-size:9px;letter-spacing:3px;color:var(--rouge);text-transform:uppercase;margin-bottom:6px;}
+.perso-nom{font-family:var(--titre);font-size:24px;color:var(--texte-clair);letter-spacing:1px;text-transform:uppercase;margin-bottom:8px;}
+.perso-motif{font-family:var(--corps);font-size:13px;font-style:italic;color:var(--texte-dim);line-height:1.5;margin-bottom:10px;}
+.perso-force{font-family:var(--mono);font-size:10px;color:var(--texte-dim);line-height:1.6;}
+
+.checkbox-wrap{display:flex;align-items:center;gap:10px;cursor:pointer;margin-top:8px;}
+.checkbox-wrap input{accent-color:var(--rouge);cursor:pointer;}
+.checkbox-label{font-family:var(--mono);font-size:10px;color:var(--texte-dim);letter-spacing:1px;}
+
+.btn-setup{width:100%;background:var(--rouge);border:none;color:#fff;font-family:var(--titre);font-size:18px;font-weight:400;letter-spacing:4px;padding:16px;cursor:pointer;transition:all 0.2s;text-transform:uppercase;clip-path:polygon(0 0,calc(100% - 12px) 0,100% 12px,100% 100%,12px 100%,0 calc(100% - 12px));margin-top:8px;}
+.btn-setup:hover{background:var(--rouge-vif);box-shadow:0 0 20px rgba(192,16,32,0.3);}
+.btn-setup:disabled{background:var(--gris);cursor:not-allowed;clip-path:none;box-shadow:none;}
+
+/* ── REPRISE ── */
+#ecran-reprise{display:none;position:fixed;inset:0;z-index:250;background:rgba(8,6,8,0.97);align-items:center;justify-content:center;padding:20px;}
+.reprise-box{background:var(--bg2);border:1px solid var(--border2);border-top:3px solid var(--rouge);max-width:440px;width:100%;padding:36px;clip-path:polygon(0 0,calc(100% - 14px) 0,100% 14px,100% 100%,0 100%);}
+.reprise-ref{font-family:var(--mono);font-size:9px;letter-spacing:4px;color:var(--rouge);text-transform:uppercase;margin-bottom:6px;}
+.reprise-titre{font-family:var(--titre);font-size:28px;color:var(--texte-clair);text-transform:uppercase;margin-bottom:24px;letter-spacing:2px;}
+.reprise-info{margin-bottom:24px;border-left:2px solid var(--rouge-dim);padding-left:14px;}
+.reprise-ligne{display:flex;justify-content:space-between;font-size:12px;padding:4px 0;font-family:var(--mono);}
+.reprise-cle{color:var(--texte-dim);}
+.reprise-val{color:var(--rouge);font-weight:500;}
+.reprise-btns{display:flex;gap:10px;}
+.reprise-btn{flex:1;padding:12px;border:none;font-family:var(--mono);font-size:10px;letter-spacing:2px;cursor:pointer;transition:all 0.2s;text-transform:uppercase;}
+.rbp{background:var(--rouge);color:#fff;}
+.rbp:hover{background:var(--rouge-vif);}
+.rbn{background:var(--bg3);color:var(--texte-dim);border:1px solid var(--border2);}
+.rbn:hover{border-color:var(--rouge-dim);color:var(--texte);}
+
+/* ── APP ── */
+#app{display:flex;flex-direction:column;min-height:100vh;max-width:1180px;margin:0 auto;padding:0 16px;position:relative;z-index:1;}
+header{display:flex;align-items:center;justify-content:space-between;padding:14px 0 12px;border-bottom:2px solid var(--rouge-dim);flex-shrink:0;}
+.logo{font-family:var(--titre);font-size:22px;color:var(--texte-clair);letter-spacing:3px;text-transform:uppercase;text-shadow:0 0 20px rgba(192,16,32,0.3);}
+.header-droite{display:flex;align-items:center;gap:12px;}
+.acte-tag{font-family:var(--mono);font-size:9px;letter-spacing:3px;color:#fff;background:var(--rouge-dim);padding:3px 10px;text-transform:uppercase;}
+.perso-tag{font-family:var(--mono);font-size:9px;letter-spacing:2px;color:var(--rouge);border:1px solid var(--rouge-dim);padding:3px 8px;text-transform:uppercase;}
+.sauv{font-family:var(--mono);font-size:10px;color:var(--texte-dim);}
+.sauv.ok{color:var(--vert);}
+.sauv.cours{color:var(--or);}
+
+.main{display:flex;flex:1;gap:14px;padding:14px 0;min-height:0;}
+
+/* ── PANNEAU STATUT ── */
+.statut-panel{width:220px;flex-shrink:0;display:flex;flex-direction:column;gap:10px;overflow-y:auto;max-height:calc(100vh - 80px);position:sticky;top:0;}
+.st-bloc{background:var(--bg2);border:1px solid var(--border);position:relative;z-index:5;}
+.st-titre{font-family:var(--mono);font-size:9px;letter-spacing:3px;text-transform:uppercase;color:var(--texte-dim);background:var(--bg3);padding:5px 12px;border-bottom:1px solid var(--border);}
+.st-inner{padding:12px 14px;}
+.st-ligne{display:flex;justify-content:space-between;align-items:center;padding:3px 0;}
+.st-nom{font-family:var(--mono);font-size:10px;color:var(--texte-dim);}
+.st-val{font-family:var(--mono);font-size:11px;color:var(--rouge);font-weight:500;}
+.st-barre-wrap{background:var(--bg4);height:3px;margin-top:2px;margin-bottom:5px;overflow:hidden;}
+.st-barre{height:100%;background:var(--rouge);transition:width 0.4s ease;}
+.st-barre.vert{background:var(--vert);}
+.st-barre.or{background:var(--or);}
+.st-barre.gris{background:var(--gris-clair);}
+
+.perso-statut{text-align:center;padding:16px 12px;border-left:3px solid var(--rouge-dim);}
+.ps-nom{font-family:var(--titre);font-size:20px;color:var(--texte-clair);letter-spacing:1px;text-transform:uppercase;}
+.ps-type{font-family:var(--mono);font-size:9px;letter-spacing:2px;color:var(--rouge);text-transform:uppercase;margin-top:3px;}
+.ps-acte{font-family:var(--mono);font-size:9px;color:var(--texte-dim);margin-top:6px;padding-top:6px;border-top:1px solid var(--border);}
+
+.blessure-item{font-family:var(--mono);font-size:10px;color:var(--rouge);padding:3px 0;border-bottom:1px solid var(--border);line-height:1.4;}
+.blessure-item:last-child{border-bottom:none;}
+.blessure-vide{font-family:var(--mono);font-size:10px;color:var(--border2);font-style:italic;}
+
+.allie-item{font-family:var(--mono);font-size:10px;color:var(--or);padding:3px 0;border-bottom:1px solid var(--border);}
+.allie-item:last-child{border-bottom:none;}
+.allie-vide{font-family:var(--mono);font-size:10px;color:var(--border2);font-style:italic;}
+
+.btn-prem{width:100%;padding:11px;background:linear-gradient(135deg,var(--rouge-dim),var(--rouge-sang));color:#fff;border:none;font-family:var(--mono);font-size:9px;letter-spacing:2px;cursor:pointer;text-transform:uppercase;transition:opacity 0.2s;}
+.btn-prem:hover{opacity:0.85;}
+
+/* ── JEU ── */
+.jeu-panel{flex:1;display:flex;flex-direction:column;min-width:0;gap:10px;position:relative;z-index:5;}
+#recit{flex:1;background:var(--bg2);border:1px solid var(--border);border-left:3px solid var(--rouge-dim);padding:22px;overflow-y:auto;min-height:0;position:relative;z-index:5;}
+.entree{margin-bottom:22px;animation:fadeIn 0.3s ease;position:relative;z-index:5;}
+@keyframes fadeIn{from{opacity:0;transform:translateY(4px);}to{opacity:1;transform:translateY(0);}}
+.entree p{font-family:var(--corps);font-size:16px;line-height:1.9;color:var(--texte-clair);margin-bottom:10px;}
+.action-joueur{font-family:var(--mono);font-size:11px;color:var(--texte-dim);padding:7px 12px;border-left:3px solid var(--rouge-dim);margin-bottom:12px;background:rgba(192,16,32,0.04);}
+
+/* Séquence action */
+.action-bloc{background:var(--bg3);border:1px solid var(--border2);border-left:4px solid var(--rouge);padding:14px 16px;margin:10px 0;}
+.action-header{font-family:var(--mono);font-size:9px;letter-spacing:3px;color:var(--rouge);text-transform:uppercase;margin-bottom:6px;}
+.action-texte{font-family:var(--corps);font-size:14px;font-style:italic;color:var(--texte-clair);line-height:1.7;}
+
+/* Conséquence */
+.consequence-bloc{background:rgba(138,0,16,0.08);border:1px solid var(--rouge-dim);padding:12px 14px;margin:8px 0;}
+.consequence-header{font-family:var(--mono);font-size:9px;letter-spacing:3px;color:var(--rouge-dim);text-transform:uppercase;margin-bottom:4px;}
+.consequence-texte{font-family:var(--mono);font-size:11px;color:var(--texte-dim);line-height:1.5;}
+
+.maj-stats{font-family:var(--mono);font-size:11px;color:var(--rouge);padding:6px 10px;background:rgba(192,16,32,0.06);border-left:2px solid var(--rouge-dim);margin-top:8px;letter-spacing:1px;}
+.sep{border:none;border-top:1px solid var(--border);margin:14px 0;}
+.curseur{display:inline-block;width:2px;height:14px;background:var(--rouge);animation:clign 0.7s infinite;vertical-align:text-bottom;margin-left:2px;}
+@keyframes clign{0%,50%{opacity:1;}51%,100%{opacity:0;}}
+
+.choix-bloc{background:var(--bg3);border:1px solid var(--border2);border-top:3px solid var(--rouge);padding:14px 16px;margin-top:12px;position:relative;z-index:10;}
+.choix-titre{font-family:var(--mono);font-size:9px;letter-spacing:3px;text-transform:uppercase;color:var(--texte-dim);margin-bottom:10px;}
+.choix-btn{display:block;width:100%;text-align:left;background:var(--bg2);border:1px solid var(--border);border-left:3px solid transparent;color:var(--texte-clair);font-family:var(--corps);font-size:15px;padding:12px 14px;margin-bottom:7px;cursor:pointer;transition:all 0.2s;line-height:1.5;position:relative;z-index:10;pointer-events:auto;}
+.choix-btn:hover{background:rgba(192,16,32,0.1);border-left-color:var(--rouge);border-color:var(--rouge-dim);text-shadow:0 0 8px rgba(192,16,32,0.3);}
+.choix-btn:last-child{margin-bottom:0;}
+
+/* Fin */
+.fin-bloc{border:2px solid var(--rouge);padding:28px;margin:12px 0;position:relative;}
+.fin-bloc::before{content:'';position:absolute;top:0;left:0;right:0;height:2px;background:linear-gradient(90deg,var(--rouge-vif),var(--rouge-dim),transparent);}
+.fin-type{font-family:var(--mono);font-size:9px;letter-spacing:3px;color:var(--texte-dim);text-transform:uppercase;margin-bottom:8px;}
+.fin-titre{font-family:var(--titre);font-size:28px;color:var(--texte-clair);text-transform:uppercase;letter-spacing:2px;margin-bottom:12px;}
+.fin-texte{font-family:var(--corps);font-size:15px;font-style:italic;color:var(--texte);line-height:1.8;}
+.fin-restart{margin-top:16px;background:var(--rouge);border:none;color:#fff;font-family:var(--mono);font-size:10px;letter-spacing:2px;padding:10px 24px;cursor:pointer;text-transform:uppercase;transition:background 0.2s;}
+.fin-restart:hover{background:var(--rouge-vif);}
+
+::-webkit-scrollbar{width:4px;}
+::-webkit-scrollbar-track{background:var(--bg);}
+::-webkit-scrollbar-thumb{background:var(--rouge-dim);border-radius:2px;}
+::-webkit-scrollbar-thumb:hover{background:var(--rouge);}
+
+@media(max-width:700px){
+  #app{padding:0 8px;}
+  .main{flex-direction:column;gap:8px;padding:8px 0;}
+  .statut-panel{width:100%;max-height:none;position:static;flex-direction:row;flex-wrap:wrap;gap:8px;overflow:visible;}
+  .statut-panel > div{min-width:140px;flex:1;}
+  #recit{min-height:260px;max-height:48vh;padding:14px;}
+  .entree p{font-size:15px;}
+  .perso-grid{grid-template-columns:1fr;}
+}
+</style>
+</head>
+<body>
+
+<div class="studio-bar">
+  <a href="https://recitgames.vercel.app">&#9664; RÉCIT GAMES</a>
+</div>
+
+<!-- INTRO -->
+<div id="ecran-intro">
+  <svg style="position:absolute;inset:0;width:100%;height:100%;z-index:0;" viewBox="0 0 800 600" preserveAspectRatio="xMidYMid slice" xmlns="http://www.w3.org/2000/svg">
+    <defs>
+      <linearGradient id="bg-v" x1="0" y1="0" x2="0" y2="1">
+        <stop offset="0%" stop-color="#080608"/>
+        <stop offset="100%" stop-color="#050305"/>
+      </linearGradient>
+      <radialGradient id="lum-v" cx="15%" cy="40%" r="40%">
+        <stop offset="0%" stop-color="rgba(192,16,32,0.18)"/>
+        <stop offset="100%" stop-color="transparent"/>
+      </radialGradient>
+      <radialGradient id="lum-v2" cx="85%" cy="60%" r="30%">
+        <stop offset="0%" stop-color="rgba(192,16,32,0.08)"/>
+        <stop offset="100%" stop-color="transparent"/>
+      </radialGradient>
+    </defs>
+    <rect width="800" height="600" fill="url(#bg-v)"/>
+    <rect width="800" height="600" fill="url(#lum-v)"/>
+    <rect width="800" height="600" fill="url(#lum-v2)"/>
+    <!-- Skyline New York nuit -->
+    <!-- Bâtiments fond -->
+    <rect x="0" y="180" width="60" height="420" fill="#0a0808"/>
+    <rect x="55" y="140" width="45" height="460" fill="#0c0a0a"/>
+    <rect x="95" y="200" width="35" height="400" fill="#080606"/>
+    <rect x="125" y="100" width="55" height="500" fill="#0e0c0c"/>
+    <!-- Empire State simplifié -->
+    <rect x="175" y="80" width="70" height="520" fill="#0f0d0d"/>
+    <rect x="195" y="50" width="30" height="60" fill="#0f0d0d"/>
+    <rect x="208" y="20" width="4" height="35" fill="#0f0d0d"/>
+    <rect x="250" y="150" width="50" height="450" fill="#0b0909"/>
+    <rect x="295" y="110" width="65" height="490" fill="#0d0b0b"/>
+    <rect x="355" y="170" width="40" height="430" fill="#0a0808"/>
+    <rect x="390" y="120" width="55" height="480" fill="#0c0a0a"/>
+    <rect x="440" y="90" width="70" height="510" fill="#0e0c0c"/>
+    <!-- Chrysler simplifié -->
+    <rect x="505" y="130" width="60" height="470" fill="#0f0d0d"/>
+    <rect x="515" y="100" width="40" height="40" fill="#0f0d0d"/>
+    <rect x="523" y="70" width="24" height="35" fill="#0f0d0d"/>
+    <rect x="529" y="45" width="12" height="30" fill="#0f0d0d"/>
+    <rect x="533" y="25" width="4" height="25" fill="#0f0d0d"/>
+    <rect x="560" y="160" width="45" height="440" fill="#0b0909"/>
+    <rect x="600" y="140" width="55" height="460" fill="#0d0b0b"/>
+    <rect x="650" y="190" width="40" height="410" fill="#090707"/>
+    <rect x="685" y="120" width="60" height="480" fill="#0c0a0a"/>
+    <rect x="740" y="160" width="60" height="440" fill="#0a0808"/>
+    <!-- Fenêtres rouges/jaunes -->
+    <rect x="130" y="110" width="4" height="4" fill="rgba(192,16,32,0.6)"/>
+    <rect x="142" y="125" width="4" height="4" fill="rgba(192,16,32,0.4)"/>
+    <rect x="180" y="90" width="4" height="4" fill="rgba(200,160,30,0.5)"/>
+    <rect x="195" y="105" width="4" height="4" fill="rgba(192,16,32,0.6)"/>
+    <rect x="210" y="118" width="4" height="4" fill="rgba(200,160,30,0.4)"/>
+    <rect x="260" y="120" width="4" height="4" fill="rgba(192,16,32,0.5)"/>
+    <rect x="272" y="135" width="4" height="4" fill="rgba(200,160,30,0.3)"/>
+    <rect x="300" y="118" width="4" height="4" fill="rgba(192,16,32,0.6)"/>
+    <rect x="315" y="130" width="4" height="4" fill="rgba(200,160,30,0.5)"/>
+    <rect x="400" y="128" width="4" height="4" fill="rgba(192,16,32,0.5)"/>
+    <rect x="415" y="140" width="4" height="4" fill="rgba(200,160,30,0.4)"/>
+    <rect x="450" y="100" width="4" height="4" fill="rgba(192,16,32,0.6)"/>
+    <rect x="465" y="115" width="4" height="4" fill="rgba(200,160,30,0.3)"/>
+    <rect x="515" y="140" width="4" height="4" fill="rgba(192,16,32,0.5)"/>
+    <rect x="530" y="155" width="4" height="4" fill="rgba(200,160,30,0.5)"/>
+    <rect x="610" y="150" width="4" height="4" fill="rgba(192,16,32,0.4)"/>
+    <rect x="625" y="165" width="4" height="4" fill="rgba(200,160,30,0.3)"/>
+    <rect x="695" y="130" width="4" height="4" fill="rgba(192,16,32,0.6)"/>
+    <rect x="710" y="145" width="4" height="4" fill="rgba(200,160,30,0.4)"/>
+    <!-- Sol / rue -->
+    <rect x="0" y="500" width="800" height="100" fill="#060404"/>
+    <rect x="0" y="498" width="800" height="4" fill="#0e0a0a"/>
+    <!-- Ligne jaune au sol -->
+    <rect x="0" y="520" width="800" height="3" fill="rgba(200,160,30,0.2)"/>
+    <!-- Reflets rouges sur bitume -->
+    <ellipse cx="200" cy="525" rx="120" ry="8" fill="rgba(192,16,32,0.08)"/>
+    <ellipse cx="600" cy="518" rx="90" ry="6" fill="rgba(192,16,32,0.06)"/>
+    <!-- Silhouette personnage seul au milieu de la rue -->
+    <rect x="391" y="440" width="18" height="60" fill="#060404" rx="2"/>
+    <circle cx="400" cy="435" r="10" fill="#060404"/>
+    <!-- Bras -->
+    <rect x="375" y="450" width="16" height="6" fill="#060404" rx="2" transform="rotate(-20,383,453)"/>
+    <rect x="409" y="450" width="16" height="6" fill="#060404" rx="2" transform="rotate(20,417,453)"/>
+    <!-- Ombre au sol -->
+    <ellipse cx="400" cy="500" rx="25" ry="4" fill="rgba(0,0,0,0.6)"/>
+    <!-- Lampadaires -->
+    <line x1="150" y1="500" x2="150" y2="420" stroke="rgba(40,30,30,0.8)" stroke-width="3"/>
+    <line x1="150" y1="420" x2="168" y2="413" stroke="rgba(40,30,30,0.8)" stroke-width="2"/>
+    <circle cx="168" cy="412" r="4" fill="rgba(200,160,30,0.5)"/>
+    <ellipse cx="168" cy="430" rx="25" ry="8" fill="rgba(200,160,30,0.05)"/>
+    <line x1="640" y1="500" x2="640" y2="418" stroke="rgba(40,30,30,0.8)" stroke-width="3"/>
+    <line x1="640" y1="418" x2="622" y2="411" stroke="rgba(40,30,30,0.8)" stroke-width="2"/>
+    <circle cx="622" cy="410" r="4" fill="rgba(200,160,30,0.5)"/>
+    <!-- Ligne rouge sur le sol (sang) -->
+    <line x1="370" y1="510" x2="430" y2="508" stroke="rgba(192,16,32,0.4)" stroke-width="2"/>
+    <!-- Vignette -->
+    <radialGradient id="vig-v" cx="50%" cy="50%" r="70%">
+      <stop offset="0%" stop-color="transparent"/>
+      <stop offset="100%" stop-color="rgba(5,3,5,0.75)"/>
+    </radialGradient>
+    <rect width="800" height="600" fill="url(#vig-v)"/>
+  </svg>
+
+  <div class="intro-inner">
+    <div class="intro-tag">New York · Anti-héros · Roman interactif</div>
+    <div class="intro-titre">VENGEANCE</div>
+    <div class="intro-barre"></div>
+    <div class="intro-sous">Récit Games · Action pure</div>
+    <div class="intro-accroche">
+      Il n'y a plus rien à perdre.<br>
+      C'est ça le problème avec quelqu'un<br>
+      qui n'a plus rien à perdre.
+    </div>
+    <div class="intro-btns">
+      <button class="btn-intro-p" onclick="afficherSetup()">Commencer la traque</button>
+      <button class="btn-intro-s" id="btn-reprendre-intro" onclick="clicReprendre()">Reprendre</button>
+    </div>
+  </div>
+</div>
+
+<!-- SETUP -->
+<div id="ecran-setup">
+  <div class="setup-wrap">
+    <div class="setup-entete">
+      <div class="setup-ref">Choix du personnage — New York</div>
+      <div class="setup-titre">VENGEANCE</div>
+    </div>
+
+    <div class="setup-bloc">
+      <label class="setup-label">Clé API Anthropic</label>
+      <input class="setup-input" type="password" id="api-key" placeholder="sk-ant-api03-..." autocomplete="off"/>
+      <label class="checkbox-wrap">
+        <input type="checkbox" id="se-souvenir"/>
+        <span class="checkbox-label">Se souvenir sur cet appareil</span>
+      </label>
+    </div>
+
+    <div class="setup-bloc">
+      <label class="setup-label">Ton personnage</label>
+      <div class="perso-grid">
+        <div class="perso-carte" id="perso-homme" onclick="choisirPerso('homme')">
+          <div class="perso-genre">Homme</div>
+          <div class="perso-nom">L'Homme brisé</div>
+          <div class="perso-motif">Sa famille a été assassinée par une organisation. Il a survécu par accident. Maintenant il remonte la chaîne.</div>
+          <div class="perso-force">Force : tactique, sang-froid<br>Faiblesse : la rage peut le trahir</div>
+        </div>
+        <div class="perso-carte" id="perso-femme" onclick="choisirPerso('femme')">
+          <div class="perso-genre">Femme</div>
+          <div class="perso-nom">La Femme qui réclame</div>
+          <div class="perso-motif">Elle a survécu à un abus commis par un homme puissant. La justice a échoué. Elle agit seule.</div>
+          <div class="perso-force">Force : intelligence, infiltration<br>Faiblesse : confrontations directes</div>
+        </div>
+      </div>
+    </div>
+
+    <div class="setup-bloc">
+      <label class="setup-label">Prénom du personnage</label>
+      <input class="setup-input" type="text" id="prenom-input" placeholder="Prénom..." maxlength="20"/>
+    </div>
+
+    <button class="btn-setup" id="btn-lancer" onclick="lancerJeu()" disabled>Entrer dans la nuit</button>
+    <p style="font-family:var(--mono);font-size:10px;color:var(--texte-dim);text-align:center;margin-top:12px;letter-spacing:1px;">L'organisation est générée aléatoirement · Chaque partie est unique</p>
+  </div>
+</div>
+
+<!-- REPRISE -->
+<div id="ecran-reprise">
+  <div class="reprise-box">
+    <div class="reprise-ref">Traque en cours</div>
+    <div class="reprise-titre">VENGEANCE</div>
+    <div class="reprise-info" id="reprise-info"></div>
+    <div class="reprise-btns">
+      <button class="reprise-btn rbp" id="btn-continuer">Reprendre</button>
+      <button class="reprise-btn rbn" id="btn-nouvelle">Nouvelle partie</button>
+    </div>
+  </div>
+</div>
+
+<!-- APP -->
+<div id="app">
+  <header>
+    <div class="logo">VENGEANCE</div>
+    <div class="header-droite">
+      <div class="acte-tag" id="acte-tag">Acte 1</div>
+      <div class="perso-tag" id="perso-tag">—</div>
+      <div class="sauv" id="sauv-ind">● prêt</div>
+    </div>
+  </header>
+  <div class="main">
+    <div class="statut-panel">
+
+      <div class="st-bloc perso-statut">
+        <div class="ps-nom" id="ps-nom">—</div>
+        <div class="ps-type" id="ps-type">—</div>
+        <div class="ps-acte" id="ps-acte">Acte 1 · New York</div>
+      </div>
+
+      <div class="st-bloc">
+        <div class="st-titre">État physique</div>
+        <div class="st-inner">
+          <div class="st-ligne"><span class="st-nom">Santé</span><span class="st-val" id="s-sante">100</span></div>
+          <div class="st-barre-wrap"><div class="st-barre vert" id="b-sante" style="width:100%"></div></div>
+          <div class="st-ligne"><span class="st-nom">Énergie</span><span class="st-val" id="s-energie">100</span></div>
+          <div class="st-barre-wrap"><div class="st-barre" id="b-energie" style="width:100%"></div></div>
+        </div>
+      </div>
+
+      <div class="st-bloc">
+        <div class="st-titre">Situation</div>
+        <div class="st-inner">
+          <div class="st-ligne"><span class="st-nom">Pression flics</span><span class="st-val" id="s-flics">0</span></div>
+          <div class="st-barre-wrap"><div class="st-barre or" id="b-flics" style="width:0%"></div></div>
+          <div class="st-ligne"><span class="st-nom">Alerte orga</span><span class="st-val" id="s-alerte">0</span></div>
+          <div class="st-barre-wrap"><div class="st-barre" id="b-alerte" style="width:0%"></div></div>
+          <div class="st-ligne"><span class="st-nom">Échelon atteint</span><span class="st-val" id="s-echelon">0 / 5</span></div>
+        </div>
+      </div>
+
+      <div class="st-bloc">
+        <div class="st-titre">Blessures</div>
+        <div class="st-inner">
+          <div id="blessures-liste"><div class="blessure-vide">Aucune</div></div>
+        </div>
+      </div>
+
+      <div class="st-bloc">
+        <div class="st-titre">Alliés</div>
+        <div class="st-inner">
+          <div id="allies-liste"><div class="allie-vide">Aucun</div></div>
+        </div>
+      </div>
+
+      <div class="st-bloc" style="padding:10px 14px;">
+        <button class="btn-prem" onclick="window.location.href='https://buy.stripe.com/test_8x2bJ05fU1yV3uKde1bZe00'">
+          Premium — 7€/mois
+        </button>
+      </div>
+
+    </div>
+
+    <div class="jeu-panel">
+      <div id="recit"></div>
+    </div>
+  </div>
+</div>
+
+<script>
+const G = {
+  apiKey:'', perso:'', prenom:'', acte:1, zone:'New York',
+  nbChoix:0, blessures:[], allies:[], historique:[], saveTO:null, adminMode:false,
+  stats:{ sante:100, energie:100, flics:0, alerte:0, echelon:0, detteMorale:0 }
+};
+const PAYWALL = 20;
+
+function afficherSetup(){
+  document.getElementById('ecran-intro').style.display='none';
+  document.getElementById('ecran-setup').style.display='block';
+  const k=localStorage.getItem('vg_api_key');
+  if(k){document.getElementById('api-key').value=k;document.getElementById('se-souvenir').checked=true;}
+  const save=charger();
+  if(save){
+    if(save.perso)choisirPerso(save.perso);
+    if(save.prenom)document.getElementById('prenom-input').value=save.prenom;
+  }
+}
+function choisirPerso(p){
+  G.perso=p;
+  document.querySelectorAll('.perso-carte').forEach(c=>c.classList.remove('sel'));
+  document.getElementById('perso-'+p)?.classList.add('sel');
+  document.getElementById('btn-lancer').disabled=false;
+}
+function lancerJeu(){
+  const k=document.getElementById('api-key').value.trim();
+  if(!k){alert('Entre ta clé API.');return;}
+  if(!G.perso){alert('Choisis ton personnage.');return;}
+  G.apiKey=k;
+  G.prenom=document.getElementById('prenom-input').value.trim()||(G.perso==='homme'?'Marcus':'Maya');
+  if(document.getElementById('se-souvenir').checked)localStorage.setItem('vg_api_key',k);
+  const save=charger();
+  if(save&&save.historique&&save.historique.length>0&&save.perso===G.perso){
+    fromSave(save);document.getElementById('ecran-setup').style.display='none';
+    afficherReprise(save);return;
+  }
+  document.getElementById('ecran-setup').style.display='none';
+  miseAJourUI();envoyerPremier();
+}
+function clicReprendre(){
+  const save=charger();
+  if(!save){afficherSetup();return;}
+  const k=localStorage.getItem('vg_api_key');
+  if(k)G.apiKey=k;
+  document.getElementById('ecran-intro').style.display='none';
+  afficherSetup();
+}
+function afficherReprise(save){
+  const d1=new Date(save.date),d2=new Date();
+  const h=Math.floor((d2-d1)/3600000),jr=Math.floor(h/24);
+  const abs=jr>0?`${jr}j`:h>0?`${h}h`:'Récent';
+  document.getElementById('reprise-info').innerHTML=`
+    <div class="reprise-ligne"><span class="reprise-cle">Personnage</span><span class="reprise-val">${save.prenom}</span></div>
+    <div class="reprise-ligne"><span class="reprise-cle">Acte</span><span class="reprise-val">${save.acte} / 5</span></div>
+    <div class="reprise-ligne"><span class="reprise-cle">Échelon</span><span class="reprise-val">${save.stats?.echelon||0} / 5</span></div>
+    <div class="reprise-ligne"><span class="reprise-cle">Zone</span><span class="reprise-val">${save.zone||'New York'}</span></div>
+    <div class="reprise-ligne"><span class="reprise-cle">Absent</span><span class="reprise-val">${abs}</span></div>`;
+  document.getElementById('ecran-reprise').style.display='flex';
+  document.getElementById('btn-continuer').onclick=()=>{
+    document.getElementById('ecran-reprise').style.display='none';
+    miseAJourUI();
+    envoyerMessage(`Je reprends. Je suis ${G.prenom}, acte ${G.acte}, zone : ${G.zone}. Santé : ${G.stats.sante}. Échelon atteint : ${G.stats.echelon}/5. Pression flics : ${G.stats.flics}. Alerte orga : ${G.stats.alerte}. Résume et propose mes 4 options.`);
+  };
+  document.getElementById('btn-nouvelle').onclick=()=>{
+    localStorage.removeItem('vengeance_save');reinitialiser();
+    document.getElementById('ecran-reprise').style.display='none';
+    miseAJourUI();envoyerPremier();
+  };
+}
+
+function sauvegarder(){
+  const d={perso:G.perso,prenom:G.prenom,acte:G.acte,zone:G.zone,
+    nbChoix:G.nbChoix,blessures:G.blessures,allies:G.allies,stats:G.stats,
+    historique:G.historique.slice(-20),date:new Date().toISOString()};
+  localStorage.setItem('vengeance_save',JSON.stringify(d));
+}
+function charger(){
+  const d=localStorage.getItem('vengeance_save');
+  if(!d)return null;try{return JSON.parse(d);}catch(e){return null;}
+}
+function fromSave(s){
+  Object.assign(G,{perso:s.perso,prenom:s.prenom,acte:s.acte||1,zone:s.zone||'New York',
+    nbChoix:s.nbChoix||0,blessures:s.blessures||[],allies:s.allies||[],historique:s.historique||[]});
+  if(s.stats)Object.assign(G.stats,s.stats);
+}
+function reinitialiser(){
+  G.acte=1;G.zone='New York';G.nbChoix=0;G.blessures=[];G.allies=[];G.historique=[];
+  G.stats={sante:100,energie:100,flics:0,alerte:0,echelon:0,detteMorale:0};
+}
+function autoSave(){
+  if(G.saveTO)clearTimeout(G.saveTO);
+  setSI('cours');G.saveTO=setTimeout(()=>{sauvegarder();setSI('ok');setTimeout(()=>setSI(''),2000);},500);
+}
+function setSI(e){
+  const el=document.getElementById('sauv-ind');
+  el.className='sauv'+(e?' '+e:'');
+  el.textContent=e==='cours'?'↑ sauvegarde...':e==='ok'?'✓ sauvegardé':'● prêt';
+}
+
+function miseAJourUI(){
+  const a=G.acte;
+  document.getElementById('acte-tag').textContent='Acte '+a;
+  document.getElementById('perso-tag').textContent=G.perso==='homme'?'L\'Homme':'La Femme';
+  document.getElementById('ps-nom').textContent=G.prenom||'—';
+  document.getElementById('ps-type').textContent=G.perso==='homme'?'Vengeance · Famille':'Vengeance · Justice';
+  document.getElementById('ps-acte').textContent=`Acte ${a} · ${G.zone}`;
+  const s=G.stats;
+  document.getElementById('s-sante').textContent=s.sante;
+  document.getElementById('b-sante').style.width=s.sante+'%';
+  document.getElementById('b-sante').style.background=s.sante>60?'var(--vert)':s.sante>30?'var(--or)':'var(--rouge)';
+  document.getElementById('s-energie').textContent=s.energie;
+  document.getElementById('b-energie').style.width=s.energie+'%';
+  document.getElementById('b-energie').style.background=s.energie>50?'var(--rouge)':'var(--or)';
+  document.getElementById('s-flics').textContent=s.flics;
+  document.getElementById('b-flics').style.width=Math.min(100,s.flics)+'%';
+  document.getElementById('b-flics').style.background=s.flics>70?'var(--rouge)':'var(--or)';
+  document.getElementById('s-alerte').textContent=s.alerte;
+  document.getElementById('b-alerte').style.width=Math.min(100,s.alerte)+'%';
+  document.getElementById('b-alerte').style.background=s.alerte>70?'var(--rouge-vif)':'var(--rouge)';
+  document.getElementById('s-echelon').textContent=s.echelon+' / 5';
+  const blEl=document.getElementById('blessures-liste');
+  if(G.blessures.length){blEl.innerHTML=G.blessures.map(b=>`<div class="blessure-item">⚡ ${b}</div>`).join('');}
+  else{blEl.innerHTML='<div class="blessure-vide">Aucune</div>';}
+  const alEl=document.getElementById('allies-liste');
+  if(G.allies.length){alEl.innerHTML=G.allies.map(a=>`<div class="allie-item">◆ ${a}</div>`).join('');}
+  else{alEl.innerHTML='<div class="allie-vide">Aucun</div>';}
+}
+
+function construireSP(){
+  const s=G.stats;
+  const persoDesc=G.perso==='homme'
+    ?`${G.prenom} — homme. Sa famille a été assassinée par l'organisation. Il a survécu par accident. Il remonte la chaîne. Force : tactique, sang-froid. Faiblesse : la rage peut le faire agir sans calcul.`
+    :`${G.prenom} — femme. Elle se venge d'un abus commis par un homme puissant. La justice a échoué. Elle agit seule. Force : intelligence situationnelle, infiltration, manipulation. Faiblesse : confrontations physiques directes.`;
+
+  return `=== VENGEANCE — CONTEUR ===
+Tu es le Conteur de Vengeance. Tu es un auteur, pas un assistant. TOUJOURS en français. Deuxième personne.
+
+=== VOIX LITTERAIRE ===
+JAMES ELLROY : phrases courtes. Densite maximale. Violence sans romantisme. New York toujours nomme precisement — jamais "une rue", toujours "la 7eme avenue a hauteur du Flatiron Building".
+DON WINSLOW : l'organisation pense, s'adapte, reagit. Chaque mort change l'ecosysteme. Les adversaires ont des noms, des familles, des fonctions.
+LEE CHILD : les sequences d'action sont ecrites comme un realisateur filmerait — angle de vue, detail sensoriel, logique spatiale. Le personnage observe, calcule, agit.
+
+REGLES D'ECRITURE :
+- Phrases courtes et denses. Pas d'ornements.
+- Mots INTERDITS : soudain, immediatement, incroyable, impressionnant.
+- New York toujours precisement localisee.
+- Les adversaires ne sont jamais des anonymes — ils ont des noms, des details.
+
+=== PERSONNAGE ===
+${persoDesc}
+Acte : ${G.acte}/5 | Zone : ${G.zone}
+Blessures : ${G.blessures.length?G.blessures.join(' / '):'Aucune'}
+Allies : ${G.allies.length?G.allies.join(', '):'Aucun'}
+
+=== STATS ===
+Sante : ${s.sante}/100 | Energie : ${s.energie}/100
+Pression flics : ${s.flics}/100 | Alerte organisation : ${s.alerte}/100
+Echelon atteint : ${s.echelon}/5 | Dette morale : ${s.detteMorale}
+
+=== ORGANISATION ENNEMIE ===
+Au PREMIER MESSAGE : generer aleatoirement avec [ ORGA ] :
+- Type (cartel, mafia, reseau trafic, milice, syndicat criminel)
+- Nom de l'organisation
+- Structure des 5 echelons avec noms des personnes cles
+- Methodologie et points faibles
+
+Cette organisation est FIXE pour toute la partie.
+
+=== SYSTEME DE CONSEQUENCES ===
+REGLE ABSOLUE : chaque mort laisse une trace. L'organisation et la police s'adaptent.
+- Elimination visible = pression flics +
+- Elimination d'un flic corrompu = un enqueteur honnete entre en scene
+- Epargner un ennemi = allie potentiel ou menace future
+- Elimination d'un lieutenant = organisation se reorganise, remplacant plus dangereux
+- L'organisation ne repete jamais la meme erreur
+
+Quand une consequence majeure se declenche : [ CONSEQUENCE: description courte ]
+Quand un allie est gagne : [ ALLIE: NomPersonnage ]
+Quand un echelon est elimine : [ ECHELON: X ]
+
+=== 4 TYPES DE SEQUENCES ===
+COMBAT MAINS NUES : choix ultra-precis — coup de poing direct, crochet au foie, coup de tete, projection, esquive + contre, utiliser l'environnement.
+ARMES A FEU : inclure toujours une dimension morale — viser pour tuer vs neutraliser, epargner vs abattre. Munitions limitees, comptees narrativement.
+ARMES BLANCHES : proximite physique intense. Feinte, attaque directe, bloquer et contre, desengager.
+POURSUITE : choix cinematographiques precis — passer sous le camion, tourner dans la ruelle etroite, monter sur le trottoir, sauter d'un toit a l'autre, faire demi-tour.
+
+=== ACTES ===
+Acte 1 — Les executants : decouverte de l'etendue de l'organisation
+Acte 2 — Les capitaines : organisation commence a comprendre
+Acte 3 — Les lieutenants : personnages nommes avec histoires et failles
+Acte 4 — Le bras droit : adversaire le plus dangereux, connait le joueur
+Acte 5 — La cible finale : climax, revelation, confrontation
+
+=== FINS ===
+[ FIN: ACCOMPLIE ] — vengeance consommee
+[ FIN: INACHEVEE ] — cible finale a echappe
+[ FIN: PIEGE ] — le joueur a ete manipule
+[ FIN: CHUTE ] — le joueur n'a pas survecu
+
+=== FORMAT ===
+Narration (120-180 mots, style Ellroy/Child)
+
+[ Stats si pertinent ]
+
+[ CHOIX ]
+1 — action ultra-precise et cinematographique
+2 — action ultra-precise et cinematographique
+3 — action ultra-precise et cinematographique
+4 — action ultra-precise et cinematographique
+
+=== MISES A JOUR ===
+[ Sante ±X ] [ Energie ±X ] [ Flics ±X ] [ Alerte ±X ]
+[ Blessure: description ] / [ Blessure-soignee: description ]
+[ Zone: NomZone ] [ Acte: X ]
+[ ECHELON: X ] [ ALLIE: NomPersonnage ]
+[ CONSEQUENCE: description ]
+
+=== PAYWALL ===
+Quand nbChoix atteint ${PAYWALL} : inserer [ PAYWALL ]`.trim();
+}
+
+function parserReponse(texte){
+  const mises=[];
+
+  // Stats
+  [['Sante','sante'],['Santé','sante'],['Energie','energie'],['Énergie','energie'],
+   ['Flics','flics'],['Alerte','alerte']].forEach(([label,key])=>{
+    texte=texte.replace(new RegExp(`\\[\\s*${label}\\s*([+\\-])(\\d+)\\s*\\]`,'gi'),(_,op,v)=>{
+      const n=parseInt(v);G.stats[key]=Math.max(0,Math.min(100,G.stats[key]+(op==='-'?-n:n)));
+      mises.push(`[${label}${op}${n}]`);
+      if(key==='sante'&&G.stats.sante<=0)setTimeout(()=>declencherFin('chute'),500);
+      return '';
+    });
+  });
+
+  // Blessures
+  texte=texte.replace(/\[\s*Blessure\s*:\s*([^\]]+)\s*\]/gi,(_,b)=>{
+    const item=b.trim();if(!G.blessures.includes(item))G.blessures.push(item);
+    mises.push(`[Blessure: ${item}]`);return '';
+  });
+  texte=texte.replace(/\[\s*Blessure-soignée?\s*:\s*([^\]]+)\s*\]/gi,(_,b)=>{
+    G.blessures=G.blessures.filter(x=>x.toLowerCase()!==b.trim().toLowerCase());
+    mises.push(`[Soigné]`);return '';
+  });
+
+  // Acte et zone
+  texte=texte.replace(/\[\s*Acte\s*:\s*(\d+)\s*\]/gi,(_,n)=>{G.acte=parseInt(n);mises.push(`[Acte ${n}]`);return '';});
+  texte=texte.replace(/\[\s*Zone\s*:\s*([^\]]+)\s*\]/gi,(_,z)=>{G.zone=z.trim();mises.push(`[${z.trim()}]`);return '';});
+
+  // Echelon
+  texte=texte.replace(/\[\s*ECHELON\s*:\s*(\d+)\s*\]/gi,(_,n)=>{
+    G.stats.echelon=parseInt(n);mises.push(`[Échelon ${n}/5]`);return '';
+  });
+
+  // Allie
+  texte=texte.replace(/\[\s*ALLIE\s*:\s*([^\]]+)\s*\]/gi,(_,nom)=>{
+    const item=nom.trim();if(!G.allies.includes(item))G.allies.push(item);
+    mises.push(`[Allié: ${item}]`);return '';
+  });
+
+  // Organisation générée
+  texte=texte.replace(/\[\s*ORGA\s*\]([\s\S]*?)(?=\[|\n\n|$)/i,(_,contenu)=>{
+    const lignes=contenu.trim().split('\n').filter(l=>l.trim());
+    return `<div class="action-bloc"><div class="action-header">Organisation ennemie — Dossier</div><div class="action-texte">${lignes.map(l=>l.replace(/^-\s*/,'')).join('<br>')}</div></div>`;
+  });
+
+  // Conséquence
+  texte=texte.replace(/\[\s*CONSEQUENCE\s*:\s*([^\]]+)\s*\]/gi,(_,desc)=>{
+    ajouterRecit(`<div class="consequence-bloc"><div class="consequence-header">Conséquence</div><div class="consequence-texte">${desc.trim()}</div></div>`);
+    return '';
+  });
+
+  // Fins
+  if(/\[\s*FIN\s*:\s*ACCOMPLIE\s*\]/i.test(texte)){texte=texte.replace(/\[\s*FIN\s*:\s*ACCOMPLIE\s*\]/gi,'');setTimeout(()=>declencherFin('accomplie'),800);}
+  if(/\[\s*FIN\s*:\s*INACHEVEE\s*\]/i.test(texte)){texte=texte.replace(/\[\s*FIN\s*:\s*INACHEVEE\s*\]/gi,'');setTimeout(()=>declencherFin('inachevee'),800);}
+  if(/\[\s*FIN\s*:\s*PIEGE\s*\]/i.test(texte)){texte=texte.replace(/\[\s*FIN\s*:\s*PIEGE\s*\]/gi,'');setTimeout(()=>declencherFin('piege'),800);}
+  if(/\[\s*FIN\s*:\s*CHUTE\s*\]/i.test(texte)){texte=texte.replace(/\[\s*FIN\s*:\s*CHUTE\s*\]/gi,'');setTimeout(()=>declencherFin('chute'),800);}
+
+  // Paywall
+  if(!G.adminMode&&/\[\s*PAYWALL\s*\]/i.test(texte)){texte=texte.replace(/\[\s*PAYWALL\s*\]/gi,'');setTimeout(declencherPaywall,600);}
+
+  // Choix
+  let htmlChoix='';
+  const mChoix=texte.match(/\[\s*CHOIX\s*\]([\s\S]*?)(?=\n\n|\n\[|$)/i);
+  if(mChoix){
+    texte=texte.replace(mChoix[0],'').trim();
+    const lignes=mChoix[0].split('\n').filter(l=>/^\d[\s—\-]/.test(l.trim()));
+    if(lignes.length){
+      window._choix=lignes.map(l=>l.replace(/^\d\s*[—\-]\s*/,'').trim());
+      htmlChoix='<div class="choix-bloc"><div class="choix-titre">Que fais-tu ?</div>'+
+        window._choix.map((t,i)=>`<button class="choix-btn" onclick="envoyerChoix(${i})">${lignes[i].trim()}</button>`).join('')+'</div>';
+    }
+  }
+
+  miseAJourUI();
+  const ps=texte.trim().split(/\n+/).filter(l=>l.trim()).map(l=>{
+    if(l.startsWith('<'))return l;
+    return `<p>${l.trim()}</p>`;
+  }).join('');
+  const su=mises.length?`<div class="maj-stats">${mises.join('  ')}</div>`:'';
+  return ps+su+htmlChoix;
+}
+
+function declencherFin(type){
+  const fins={
+    accomplie:{titre:'Vengeance accomplie',texte:'C\'est fait. La cible finale est morte. Tu as tenu ta promesse. Quelque chose a changé en toi pendant cette traversée. Tu ne sais pas encore si c\'est pour le mieux.',color:'var(--rouge-vif)'},
+    inachevee:{titre:'Inachevée',texte:'Elle a échappé. Elle vit quelque part. Tu le sais. La vengeance n\'est pas terminée — elle est suspendue. Pour l\'instant.',color:'var(--or)'},
+    piege:{titre:'Le piège',texte:'Tu viens de comprendre. En remontant la chaîne, tu as fait le travail de nettoyage de la cible. Elle t\'a utilisé. Chaque mort que tu as provoquée lui a rendu service. La vengeance était son outil.',color:'var(--rouge-dim)'},
+    chute:{titre:'La chute',texte:'Pas de discours. Pas de révélation de dernière minute. Juste New York qui continue. Et toi qui n\'es plus là pour le voir.',color:'var(--gris-clair)'}
+  };
+  const fin=fins[type];
+  ajouterRecit(`<div class="fin-bloc">
+    <div class="fin-type">— Fin —</div>
+    <div class="fin-titre" style="color:${fin.color};">${fin.titre}</div>
+    <div class="fin-texte">${fin.texte}</div>
+    <button class="fin-restart" onclick="nouvellePartie()">Nouvelle partie</button>
+  </div>`);
+}
+function nouvellePartie(){
+  localStorage.removeItem('vengeance_save');reinitialiser();
+  document.getElementById('recit').innerHTML='';
+  document.querySelectorAll('.perso-carte').forEach(c=>c.classList.remove('sel'));
+  G.perso='';document.getElementById('btn-lancer').disabled=true;
+  afficherSetup();
+}
+function declencherPaywall(){
+  ajouterRecit(`<div style="border:2px solid var(--rouge-dim);background:rgba(192,16,32,0.06);padding:20px;margin:8px 0;text-align:center;">
+    <p style="font-family:var(--mono);font-size:9px;letter-spacing:3px;color:var(--rouge);text-transform:uppercase;margin-bottom:10px;">— Accès limité —</p>
+    <p style="font-family:var(--corps);font-size:15px;color:var(--texte-clair);margin-bottom:16px;">Tu as atteint la limite gratuite de Vengeance. Pour finir la traque, passe à l'abonnement Récit Games.</p>
+    <div style="display:flex;gap:10px;justify-content:center;flex-wrap:wrap;">
+      <button onclick="window.location.href='https://buy.stripe.com/test_8x2bJ05fU1yV3uKde1bZe00'" style="background:var(--rouge);border:none;color:#fff;font-family:var(--mono);font-size:10px;letter-spacing:2px;padding:11px 24px;cursor:pointer;text-transform:uppercase;">S'abonner — 7€/mois</button>
+      <button onclick="saisirCode()" style="background:none;border:1px solid var(--border2);color:var(--texte-dim);font-family:var(--mono);font-size:10px;letter-spacing:2px;padding:11px 20px;cursor:pointer;text-transform:uppercase;">J'ai un code</button>
+    </div>
+  </div>`);
+}
+function saisirCode(){
+  const code=prompt('Entre ton code abonnement Récit Games :');
+  if(!code)return;
+  fetch('https://recitgames-api.vercel.app/api/verify-code',{
+    method:'POST',headers:{'Content-Type':'application/json'},
+    body:JSON.stringify({code:code.trim().toUpperCase()})
+  }).then(r=>r.json()).then(data=>{
+    if(data.valid){
+      if(data.admin){G.nbChoix=0;G.adminMode=true;ajouterRecit('<p style="color:var(--vert);font-family:var(--mono);font-size:11px;letter-spacing:2px;">✓ Accès admin activé.</p>');}
+      else{G.nbChoix=0;ajouterRecit('<p style="color:var(--vert);font-family:var(--mono);font-size:11px;letter-spacing:2px;">✓ Code validé. La traque continue.</p>');}
+    }else{alert('Code invalide.');}
+  }).catch(()=>alert('Erreur de vérification.'));
+}
+
+async function streamerMessage(msg){
+  G.historique.push({role:'user',content:msg});
+  const recit=document.getElementById('recit');
+  const entree=document.createElement('div');entree.className='entree';
+  recit.appendChild(entree);recit.scrollTop=entree.offsetTop-20;
+  const sp=document.createElement('p');entree.appendChild(sp);
+  const cur=document.createElement('span');cur.className='curseur';sp.appendChild(cur);
+  let full='';
+  try{
+    const res=await fetch('https://api.anthropic.com/v1/messages',{
+      method:'POST',
+      headers:{'Content-Type':'application/json','x-api-key':G.apiKey.replace(/[^\x20-\x7E]/g,'').trim(),'anthropic-version':'2023-06-01','anthropic-dangerous-direct-browser-access':'true'},
+      body:JSON.stringify({model:'claude-sonnet-4-20250514',max_tokens:1400,stream:true,system:construireSP(),messages:G.historique})
+    });
+    if(!res.ok){const e=await res.json().catch(()=>({}));throw new Error(e.error?.message||`Erreur ${res.status}`);}
+    const reader=res.body.getReader();const dec=new TextDecoder('utf-8',{fatal:false});
+    let buffer='';
+    while(true){
+      const{done,value}=await reader.read();if(done)break;
+      buffer+=dec.decode(value,{stream:true});
+      const lignes=buffer.split('\n');buffer=lignes.pop();
+      for(const ligne of lignes){
+        if(!ligne.startsWith('data: '))continue;
+        const d=ligne.slice(6).trim();if(d==='[DONE]')continue;
+        try{const p=JSON.parse(d);if(p.type==='content_block_delta'&&p.delta?.text){full+=p.delta.text;sp.textContent=full;sp.appendChild(cur);}}catch(e){}
+      }
+    }
+    cur.remove();
+    G.historique.push({role:'assistant',content:full});
+    if(G.historique.length>20)G.historique=G.historique.slice(-20);
+    entree.innerHTML=parserReponse(full);
+    autoSave();
+  }catch(err){
+    cur.remove();
+    entree.innerHTML=`<p style="color:var(--rouge-vif);font-family:var(--mono);font-size:12px;">Erreur : ${err.message}</p>`;
+  }
+}
+function ajouterRecit(html){
+  const recit=document.getElementById('recit');
+  const e=document.createElement('div');e.className='entree';e.innerHTML=html;
+  recit.appendChild(e);recit.scrollTop=recit.scrollHeight;
+}
+async function envoyerMessage(msg){
+  if(!msg.trim())return;
+  const recit=document.getElementById('recit');
+  if(recit.children.length>0){
+    const sep=document.createElement('div');sep.className='entree';
+    sep.innerHTML='<hr class="sep"/>';recit.appendChild(sep);
+  }
+  ajouterRecit(`<div class="action-joueur">▸ ${msg}</div>`);
+  if(!G.adminMode)G.nbChoix++;
+  await streamerMessage(msg);
+}
+function envoyerChoix(i){const t=window._choix&&window._choix[i];if(t)envoyerMessage(t);}
+async function envoyerPremier(){
+  miseAJourUI();
+  const msg=G.perso==='homme'
+    ?`Je commence Vengeance. Je suis ${G.prenom}, un homme. Ma famille a été assassinée. Génère l'organisation aléatoirement et commence l'Acte 1 à New York.`
+    :`Je commence Vengeance. Je suis ${G.prenom}, une femme. Je me venge d'un abus commis par un homme puissant. Génère l'organisation aléatoirement et commence l'Acte 1 à New York.`;
+  await streamerMessage(msg);
+}
+
+window.addEventListener('load',()=>{
+  const save=charger();
+  if(save&&save.historique&&save.historique.length>0)document.getElementById('btn-reprendre-intro').style.display='block';
+});
+</script>
+</body>
+</html>
