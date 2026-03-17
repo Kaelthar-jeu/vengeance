@@ -450,6 +450,9 @@ header{display:flex;align-items:center;justify-content:space-between;padding:14p
 const G = {
   apiKey:'', perso:'', prenom:'', acte:1, zone:'New York',
   nbChoix:0, blessures:[], allies:[], historique:[], saveTO:null, adminMode:false,
+  organisation:'',        // nom et type de l'organisation générée
+  ciblesEliminees:[],     // liste des cibles éliminées avec leur rang
+  informations:[],        // informations collectées par interrogatoire
   stats:{ sante:100, energie:100, flics:0, alerte:0, echelon:0, detteMorale:0 }
 };
 const PAYWALL = 20;
@@ -508,7 +511,17 @@ function afficherReprise(save){
   document.getElementById('btn-continuer').onclick=()=>{
     document.getElementById('ecran-reprise').style.display='none';
     miseAJourUI();
-    envoyerMessage(`Je reprends. Je suis ${G.prenom}, acte ${G.acte}, zone : ${G.zone}. Santé : ${G.stats.sante}. Échelon atteint : ${G.stats.echelon}/5. Pression flics : ${G.stats.flics}. Alerte orga : ${G.stats.alerte}. Résume et propose mes 4 options.`);
+    const ciblesStr = G.ciblesEliminees.length ? G.ciblesEliminees.join(' / ') : 'aucune';
+    const infoStr = G.informations.length ? G.informations.join(' / ') : 'aucune';
+    envoyerMessage(`REPRISE STRICTE — reprends EXACTEMENT là où on s'était arrêtés, même scène, même situation, aucune progression automatique.
+Personnage : ${G.prenom} (${G.perso}) | Acte ${G.acte}/5 | Zone : ${G.zone}
+Organisation : ${G.organisation || 'à préciser depuis l\'historique'}
+Cibles éliminées (${G.ciblesEliminees.length}) : ${ciblesStr}
+Informations collectées : ${infoStr}
+Alliés : ${G.allies.length ? G.allies.join(', ') : 'aucun'}
+Blessures : ${G.blessures.length ? G.blessures.join(' / ') : 'aucune'}
+Santé : ${G.stats.sante}/100 | Énergie : ${G.stats.energie}/100 | Pression flics : ${G.stats.flics}/100 | Alerte orga : ${G.stats.alerte}/100 | Échelon : ${G.stats.echelon}/5 | Dette morale : ${G.stats.detteMorale}
+RÈGLES ABSOLUES : aucune cible n'a été éliminée pendant mon absence, aucune stat n'a changé, l'organisation est la même. Reprends la scène exactement là où elle était et propose mes 4 choix.`);
   };
   document.getElementById('btn-nouvelle').onclick=()=>{
     localStorage.removeItem('vengeance_save');reinitialiser();
@@ -520,6 +533,7 @@ function afficherReprise(save){
 function sauvegarder(){
   const d={perso:G.perso,prenom:G.prenom,acte:G.acte,zone:G.zone,
     nbChoix:G.nbChoix,blessures:G.blessures,allies:G.allies,stats:G.stats,
+    organisation:G.organisation,ciblesEliminees:G.ciblesEliminees,informations:G.informations,
     historique:G.historique.slice(-20),date:new Date().toISOString()};
   localStorage.setItem('vengeance_save',JSON.stringify(d));
 }
@@ -529,7 +543,9 @@ function charger(){
 }
 function fromSave(s){
   Object.assign(G,{perso:s.perso,prenom:s.prenom,acte:s.acte||1,zone:s.zone||'New York',
-    nbChoix:s.nbChoix||0,blessures:s.blessures||[],allies:s.allies||[],historique:s.historique||[]});
+    nbChoix:s.nbChoix||0,blessures:s.blessures||[],allies:s.allies||[],
+    organisation:s.organisation||'',ciblesEliminees:s.ciblesEliminees||[],
+    informations:s.informations||[],historique:s.historique||[]});
   if(s.stats)Object.assign(G.stats,s.stats);
 }
 function reinitialiser(){
@@ -601,6 +617,9 @@ ${persoDesc}
 Acte : ${G.acte}/5 | Zone : ${G.zone}
 Blessures : ${G.blessures.length?G.blessures.join(' / '):'Aucune'}
 Allies : ${G.allies.length?G.allies.join(', '):'Aucun'}
+Organisation ennemie : ${G.organisation||'génération en cours'}
+Cibles éliminées (${G.ciblesEliminees.length}) : ${G.ciblesEliminees.length?G.ciblesEliminees.join(' / '):'aucune'}
+Informations collectées : ${G.informations.length?G.informations.join(' / '):'aucune'}
 
 === STATS ===
 Sante : ${s.sante}/100 | Energie : ${s.energie}/100
@@ -623,6 +642,24 @@ REGLE ABSOLUE : chaque mort laisse une trace. L'organisation et la police s'adap
 - Epargner un ennemi = allie potentiel ou menace future
 - Elimination d'un lieutenant = organisation se reorganise, remplacant plus dangereux
 - L'organisation ne repete jamais la meme erreur
+
+=== COHÉRENCE ABSOLUE — RÈGLES FONDAMENTALES ===
+
+RÈGLE 1 — MÉMOIRE TOTALE :
+Tu te souviens de TOUT ce qui s'est passé. Chaque cible éliminée est listée ci-dessus. Chaque allié gagné est listé. Chaque information collectée est listée. Ces faits sont IMMUABLES — ils ne changent pas, ne se contredisent pas.
+
+RÈGLE 2 — ORGANISATION FIXE :
+L'organisation générée au début est la même jusqu'à la fin. Ses membres ont des noms fixes, des rangs fixes, des caractères fixes. Un personnage mort reste mort. Un personnage épargné se souvient d'avoir été épargné.
+
+RÈGLE 3 — CAUSALITÉ STRICTE :
+Chaque événement est la conséquence d'une action du joueur ou d'un état existant. Interdit : événements sortis de nulle part, revirements sans cause, personnages qui oublient ce qui s'est passé.
+
+RÈGLE 4 — SAUVEGARDE STRICTE :
+Le joueur reprend EXACTEMENT là où il était. Aucune cible n'a été éliminée pendant son absence. Aucune stat n'a changé. La scène reprend au même point avec les mêmes enjeux.
+
+Quand une cible est éliminée : [ CIBLE: Nom — Rang ]
+Quand une information est collectée : [ INFO: description courte ]
+Quand l'organisation est générée : [ ORGA: Nom et type de l'organisation ]
 
 Quand une consequence majeure se declenche : [ CONSEQUENCE: description courte ]
 Quand un allie est gagne : [ ALLIE: NomPersonnage ]
@@ -718,6 +755,27 @@ function parserReponse(texte){
   texte=texte.replace(/\[\s*CONSEQUENCE\s*:\s*([^\]]+)\s*\]/gi,(_,desc)=>{
     ajouterRecit(`<div class="consequence-bloc"><div class="consequence-header">Conséquence</div><div class="consequence-texte">${desc.trim()}</div></div>`);
     return '';
+  });
+
+  // Organisation générée
+  texte=texte.replace(/\[\s*ORGA\s*\]([\s\S]*?)\[\s*\/ORGA\s*\]/gi,(_,desc)=>{
+    G.organisation=desc.trim().split('\n')[0].trim()||desc.trim().slice(0,80);
+    return '';
+  });
+  texte=texte.replace(/\[\s*ORGA\s*:\s*([^\]]+)\s*\]/gi,(_,desc)=>{
+    G.organisation=desc.trim();mises.push('[Orga: '+desc.trim()+']');return '';
+  });
+
+  // Cible éliminée
+  texte=texte.replace(/\[\s*CIBLE\s*:\s*([^\]]+)\s*\]/gi,(_,c)=>{
+    const item=c.trim();if(!G.ciblesEliminees.includes(item))G.ciblesEliminees.push(item);
+    mises.push('[Cible: '+item+']');return '';
+  });
+
+  // Information collectée
+  texte=texte.replace(/\[\s*INFO\s*:\s*([^\]]+)\s*\]/gi,(_,info)=>{
+    const item=info.trim();if(!G.informations.includes(item))G.informations.push(item);
+    mises.push('[Info: '+item+']');return '';
   });
 
   // Fins
