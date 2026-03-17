@@ -108,13 +108,28 @@ header{display:flex;align-items:center;justify-content:space-between;padding:14p
 .acte-tag{font-family:var(--mono);font-size:9px;letter-spacing:3px;color:#fff;background:var(--rouge-dim);padding:3px 10px;text-transform:uppercase;}
 .perso-tag{font-family:var(--mono);font-size:9px;letter-spacing:2px;color:var(--rouge);border:1px solid var(--rouge-dim);padding:3px 8px;text-transform:uppercase;}
 .sauv{font-family:var(--mono);font-size:10px;color:var(--texte-dim);}
+
+/* Panneau déroulant */
+.vg-panel-btn{background:none;border:1px solid var(--rouge-dim);color:var(--texte-dim);font-family:var(--mono);font-size:9px;padding:3px 9px;cursor:pointer;transition:all 0.2s;letter-spacing:1px;text-transform:uppercase;}
+.vg-panel-btn:hover{border-color:var(--rouge-vif);color:var(--rouge-vif);}
+#vg-panel{display:none;background:var(--bg2);border-bottom:1px solid var(--border);padding:12px 0;}
+#vg-panel.open{display:block;}
+.vg-panel-inner{display:grid;grid-template-columns:repeat(auto-fit,minmax(160px,1fr));gap:14px;}
+.vg-bloc-title{font-family:var(--mono);font-size:9px;letter-spacing:3px;text-transform:uppercase;color:var(--texte-dim);border-bottom:1px solid var(--border);padding-bottom:5px;margin-bottom:8px;}
+.vg-row{display:flex;justify-content:space-between;align-items:center;padding:3px 0;font-size:11px;}
+.vg-key{color:var(--texte-dim);font-family:var(--mono);}
+.vg-val{color:var(--rouge);font-family:var(--mono);font-weight:500;}
+.vg-barre-wrap{background:var(--bg4);height:3px;margin-top:2px;margin-bottom:5px;overflow:hidden;}
+.vg-barre{height:100%;background:var(--rouge);transition:width 0.4s ease;}
+.vg-item{font-family:var(--mono);font-size:10px;padding:2px 0;}
+@media(max-width:600px){.vg-panel-inner{grid-template-columns:1fr 1fr;}}
 .sauv.ok{color:var(--vert);}
 .sauv.cours{color:var(--or);}
 
-.main{display:flex;flex:1;gap:14px;padding:14px 0;min-height:0;}
+.main{display:block;flex:1;padding:14px 0;min-height:0;}
 
 /* ── PANNEAU STATUT ── */
-.statut-panel{width:220px;flex-shrink:0;display:flex;flex-direction:column;gap:10px;overflow-y:auto;max-height:calc(100vh - 80px);position:sticky;top:0;}
+.statut-panel{display:none;}
 .st-bloc{background:var(--bg2);border:1px solid var(--border);position:relative;z-index:5;}
 .st-titre{font-family:var(--mono);font-size:9px;letter-spacing:3px;text-transform:uppercase;color:var(--texte-dim);background:var(--bg3);padding:5px 12px;border-bottom:1px solid var(--border);}
 .st-inner{padding:12px 14px;}
@@ -189,8 +204,7 @@ header{display:flex;align-items:center;justify-content:space-between;padding:14p
 @media(max-width:700px){
   #app{padding:0 8px;}
   .main{flex-direction:column;gap:8px;padding:8px 0;}
-  .statut-panel{width:100%;max-height:none;position:static;flex-direction:row;flex-wrap:wrap;gap:8px;overflow:visible;}
-  .statut-panel > div{min-width:140px;flex:1;}
+
   #recit{min-height:260px;max-height:48vh;padding:14px;}
   .entree p{font-size:15px;}
   .perso-grid{grid-template-columns:1fr;}
@@ -386,8 +400,55 @@ header{display:flex;align-items:center;justify-content:space-between;padding:14p
       <div class="acte-tag" id="acte-tag">Acte 1</div>
       <div class="perso-tag" id="perso-tag">—</div>
       <div class="sauv" id="sauv-ind">● prêt</div>
+      <button class="vg-panel-btn" onclick="toggleVgPanel()">Opération ▾</button>
     </div>
   </header>
+
+  <!-- Panneau déroulant -->
+  <div id="vg-panel">
+    <div class="vg-panel-inner">
+
+      <div>
+        <div class="vg-bloc-title">Identité</div>
+        <div style="font-family:var(--titre);font-size:16px;color:var(--texte-clair);letter-spacing:1px;text-transform:uppercase;" id="vg-nom">—</div>
+        <div style="font-family:var(--mono);font-size:9px;color:var(--rouge);letter-spacing:2px;margin-top:3px;" id="vg-type">—</div>
+        <div style="font-family:var(--mono);font-size:9px;color:var(--texte-dim);margin-top:6px;" id="vg-acte">Acte 1 · New York</div>
+        <div style="font-family:var(--mono);font-size:9px;color:var(--texte-dim);margin-top:4px;" id="vg-orga">Organisation : —</div>
+      </div>
+
+      <div>
+        <div class="vg-bloc-title">État physique</div>
+        <div class="vg-row"><span class="vg-key">Santé</span><span class="vg-val" id="vg-sante">100</span></div>
+        <div class="vg-barre-wrap"><div class="vg-barre" id="vg-b-sante" style="width:100%;background:var(--vert);"></div></div>
+        <div class="vg-row"><span class="vg-key">Énergie</span><span class="vg-val" id="vg-energie">100</span></div>
+        <div class="vg-barre-wrap"><div class="vg-barre" id="vg-b-energie" style="width:100%;"></div></div>
+      </div>
+
+      <div>
+        <div class="vg-bloc-title">Pression</div>
+        <div class="vg-row"><span class="vg-key">Flics</span><span class="vg-val" id="vg-flics">0</span></div>
+        <div class="vg-barre-wrap"><div class="vg-barre" id="vg-b-flics" style="width:0%;background:var(--or);"></div></div>
+        <div class="vg-row"><span class="vg-key">Alerte orga</span><span class="vg-val" id="vg-alerte">0</span></div>
+        <div class="vg-barre-wrap"><div class="vg-barre" id="vg-b-alerte" style="width:0%;"></div></div>
+        <div class="vg-row"><span class="vg-key">Échelon</span><span class="vg-val" id="vg-echelon">0 / 5</span></div>
+        <div class="vg-row"><span class="vg-key">Dette morale</span><span class="vg-val" id="vg-dette">0</span></div>
+      </div>
+
+      <div>
+        <div class="vg-bloc-title">Blessures</div>
+        <div id="vg-blessures"><div class="vg-item" style="color:var(--texte-dim);font-style:italic;">Aucune</div></div>
+        <div class="vg-bloc-title" style="margin-top:10px;">Alliés</div>
+        <div id="vg-allies"><div class="vg-item" style="color:var(--texte-dim);font-style:italic;">Aucun</div></div>
+      </div>
+
+      <div>
+        <div class="vg-bloc-title">Cibles éliminées</div>
+        <div id="vg-cibles"><div class="vg-item" style="color:var(--texte-dim);font-style:italic;">Aucune</div></div>
+      </div>
+
+    </div>
+  </div>
+
   <div class="main">
     <div class="statut-panel">
 
@@ -562,14 +623,40 @@ function setSI(e){
   el.textContent=e==='cours'?'↑ sauvegarde...':e==='ok'?'✓ sauvegardé':'● prêt';
 }
 
+function toggleVgPanel(){
+  const p=document.getElementById('vg-panel');
+  const b=document.querySelector('.vg-panel-btn');
+  p.classList.toggle('open');
+  if(b)b.textContent=p.classList.contains('open')?'Opération ▴':'Opération ▾';
+}
+
 function miseAJourUI(){
   const a=G.acte;
+  // Nouveau panneau
+  const set=(id,v)=>{const e=document.getElementById(id);if(e)e.textContent=v;};
+  const setW=(id,w,col)=>{const e=document.getElementById(id);if(e){e.style.width=Math.min(100,w)+'%';if(col)e.style.background=col;}};
+  set('vg-nom',G.prenom||'—');
+  set('vg-type',G.perso==='homme'?'Vengeance · Famille':'Vengeance · Justice');
+  set('vg-acte',`Acte ${a} · ${G.zone}`);
+  set('vg-orga','Organisation : '+(G.organisation||'—'));
+  const s=G.stats;
+  set('vg-sante',s.sante);setW('vg-b-sante',s.sante,s.sante>60?'var(--vert)':s.sante>30?'var(--or)':'var(--rouge)');
+  set('vg-energie',s.energie);setW('vg-b-energie',s.energie,s.energie>50?'var(--rouge)':'var(--or)');
+  set('vg-flics',s.flics);setW('vg-b-flics',s.flics,s.flics>70?'var(--rouge)':'var(--or)');
+  set('vg-alerte',s.alerte);setW('vg-b-alerte',s.alerte,s.alerte>70?'var(--rouge-vif)':'var(--rouge)');
+  set('vg-echelon',s.echelon+' / 5');
+  set('vg-dette',s.detteMorale||0);
+  const vgBl=document.getElementById('vg-blessures');
+  if(vgBl)vgBl.innerHTML=G.blessures.length?G.blessures.map(b=>`<div class="vg-item" style="color:var(--rouge);">⚡ ${b}</div>`).join(''):'<div class="vg-item" style="color:var(--texte-dim);font-style:italic;">Aucune</div>';
+  const vgAl=document.getElementById('vg-allies');
+  if(vgAl)vgAl.innerHTML=G.allies.length?G.allies.map(a=>`<div class="vg-item" style="color:var(--or);">◆ ${a}</div>`).join(''):'<div class="vg-item" style="color:var(--texte-dim);font-style:italic;">Aucun</div>';
+  const vgCib=document.getElementById('vg-cibles');
+  if(vgCib)vgCib.innerHTML=(G.ciblesEliminees&&G.ciblesEliminees.length)?G.ciblesEliminees.map(c=>`<div class="vg-item" style="color:var(--texte-dim);text-decoration:line-through;">✕ ${c}</div>`).join(''):'<div class="vg-item" style="color:var(--texte-dim);font-style:italic;">Aucune</div>';
   document.getElementById('acte-tag').textContent='Acte '+a;
   document.getElementById('perso-tag').textContent=G.perso==='homme'?'L\'Homme':'La Femme';
   document.getElementById('ps-nom').textContent=G.prenom||'—';
   document.getElementById('ps-type').textContent=G.perso==='homme'?'Vengeance · Famille':'Vengeance · Justice';
   document.getElementById('ps-acte').textContent=`Acte ${a} · ${G.zone}`;
-  const s=G.stats;
   document.getElementById('s-sante').textContent=s.sante;
   document.getElementById('b-sante').style.width=s.sante+'%';
   document.getElementById('b-sante').style.background=s.sante>60?'var(--vert)':s.sante>30?'var(--or)':'var(--rouge)';
