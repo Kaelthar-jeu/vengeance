@@ -3,182 +3,133 @@
 <head>
 <meta charset="UTF-8"/>
 <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
-<title>Vengeance</title>
+<title>Vengeance — Récit Games</title>
 <link rel="preconnect" href="https://fonts.googleapis.com"/>
-<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin/>
-<link href="https://fonts.googleapis.com/css2?family=Anton&family=Crimson+Pro:ital,wght@0,300;0,400;1,300&family=Share+Tech+Mono&display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Libre+Baskerville:ital,wght@0,400;0,700;1,400&family=Space+Mono:wght@400;700&display=swap" rel="stylesheet"/>
 <style>
 *,*::before,*::after{box-sizing:border-box;margin:0;padding:0;}
 :root{
-  --bg:#080608;--bg2:#0f0a0d;--bg3:#161018;--bg4:#1e1620;
-  --border:#2a1a22;--border2:#3a2030;
-  --texte:#d8c8d0;--texte-dim:#706070;--texte-clair:#f0e8ec;
-  --rouge:#c01020;--rouge-vif:#e02030;--rouge-dim:#6a0810;
-  --rouge-sang:#8a0010;
-  --gris:#3a3040;--gris-clair:#5a5060;
-  --or:#c0a020;--vert:#1a7030;
-  --mono:'Share Tech Mono',monospace;
-  --titre:'Anton',sans-serif;
-  --corps:'Crimson Pro',Georgia,serif;
+  --bg:#0f0d0b;--bg2:#161410;--bg3:#1e1b16;--bg4:#252019;
+  --border:#302b24;--border2:#403a30;
+  --texte:#d8d0c0;--texte-dim:#807060;--texte-clair:#f0e8d8;
+  --rouge:#a01818;--rouge-vif:#cc2020;--rouge-dim:#601010;
+  --or:#b08030;--or-clair:#d4a840;
+  --serif:'Libre Baskerville',Georgia,serif;
+  --mono:'Space Mono',monospace;
 }
-html,body{height:100%;background:var(--bg);color:var(--texte);font-family:var(--corps);font-size:16px;line-height:1.7;overflow-x:hidden;}
-
-body::before{content:'';position:fixed;inset:0;background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='200' height='200'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='200' height='200' filter='url(%23n)' opacity='0.04'/%3E%3C/svg%3E");pointer-events:none;z-index:0;}
-body::after{content:'';position:fixed;left:0;top:0;bottom:0;width:3px;background:linear-gradient(180deg,transparent,var(--rouge),var(--rouge-dim),transparent);pointer-events:none;z-index:0;}
-
-.studio-bar{position:relative;z-index:10;background:#050305;border-bottom:2px solid var(--rouge-dim);padding:6px 16px;text-align:center;}
+html,body{height:100%;background:var(--bg);color:var(--texte);font-family:var(--serif);font-size:16px;line-height:1.7;overflow-x:hidden;}
+.studio-bar{background:#0a0808;border-bottom:1px solid var(--border);padding:7px 16px;text-align:center;}
 .studio-bar a{color:var(--texte-dim);font-size:11px;text-decoration:none;letter-spacing:3px;font-family:var(--mono);transition:color 0.2s;}
-.studio-bar a:hover{color:var(--rouge-vif);}
-
-/* INTRO */
-#ecran-intro{position:fixed;inset:0;z-index:300;background:var(--bg);display:flex;flex-direction:column;align-items:center;justify-content:center;padding:24px;overflow:hidden;}
-.intro-inner{max-width:580px;width:100%;text-align:left;position:relative;z-index:1;}
-.intro-tag{font-family:var(--mono);font-size:10px;letter-spacing:5px;color:var(--rouge);text-transform:uppercase;margin-bottom:16px;animation:app 0.6s ease 0.1s both;}
-.intro-titre{font-family:var(--titre);font-size:clamp(80px,20vw,160px);font-weight:400;color:var(--texte-clair);line-height:0.85;letter-spacing:2px;text-transform:uppercase;text-shadow:0 0 60px rgba(192,16,32,0.4),4px 4px 0 rgba(192,16,32,0.2);animation:app 0.6s ease 0.2s both;}
-.intro-barre{width:100%;height:2px;background:linear-gradient(90deg,var(--rouge-vif),var(--rouge-dim),transparent);margin:18px 0;animation:largeur 0.8s ease 0.4s both;}
-@keyframes largeur{from{width:0}to{width:100%}}
-.intro-sous{font-family:var(--mono);font-size:10px;letter-spacing:3px;color:var(--texte-dim);text-transform:uppercase;margin-bottom:28px;animation:app 0.6s ease 0.45s both;}
-.intro-accroche{font-family:var(--corps);font-size:15px;font-style:italic;color:var(--texte-dim);line-height:1.9;margin-bottom:44px;border-left:2px solid var(--rouge-dim);padding-left:16px;animation:app 0.6s ease 0.55s both;max-width:440px;}
-.intro-btns{display:flex;gap:12px;flex-wrap:wrap;animation:app 0.6s ease 0.7s both;}
-.btn-intro-p{background:var(--rouge);border:none;color:#fff;font-family:var(--titre);font-size:18px;font-weight:400;letter-spacing:4px;padding:14px 40px;cursor:pointer;transition:all 0.2s;text-transform:uppercase;clip-path:polygon(0 0,calc(100% - 10px) 0,100% 10px,100% 100%,10px 100%,0 calc(100% - 10px));}
-.btn-intro-p:hover{background:var(--rouge-vif);box-shadow:0 0 20px rgba(192,16,32,0.4);}
-.btn-intro-s{display:none;background:none;border:1px solid var(--border2);color:var(--texte-dim);font-family:var(--mono);font-size:11px;letter-spacing:3px;padding:14px 24px;cursor:pointer;transition:all 0.2s;text-transform:uppercase;}
-.btn-intro-s:hover{border-color:var(--rouge-dim);color:var(--texte);}
-@keyframes app{from{opacity:0;transform:translateX(-20px);}to{opacity:1;transform:translateX(0);}}
-
-/* SETUP */
-#ecran-setup{display:none;position:fixed;inset:0;z-index:200;background:var(--bg);overflow-y:auto;-webkit-overflow-scrolling:touch;padding:20px;}
-.setup-wrap{max-width:620px;margin:auto;padding:40px 0;}
-.setup-entete{margin-bottom:36px;padding-bottom:16px;border-bottom:2px solid var(--rouge-dim);}
-.setup-ref{font-family:var(--mono);font-size:9px;letter-spacing:4px;color:var(--rouge);text-transform:uppercase;margin-bottom:6px;}
-.setup-titre{font-family:var(--titre);font-size:40px;color:var(--texte-clair);letter-spacing:2px;text-transform:uppercase;}
+.studio-bar a:hover{color:var(--texte);}
+#ecran-intro{position:fixed;inset:0;z-index:300;background:var(--bg);display:flex;flex-direction:column;align-items:center;justify-content:center;padding:24px;background-image:radial-gradient(ellipse at 50% 80%,rgba(160,24,24,0.08) 0%,transparent 60%);}
+.intro-inner{max-width:500px;width:100%;text-align:center;}
+.intro-tag{font-family:var(--mono);font-size:10px;letter-spacing:5px;color:var(--texte-dim);text-transform:uppercase;margin-bottom:36px;animation:fi 0.8s ease 0.1s both;}
+.intro-titre{font-family:var(--serif);font-size:clamp(56px,14vw,100px);font-weight:700;font-style:italic;color:var(--texte-clair);line-height:0.9;letter-spacing:-2px;text-shadow:0 0 60px rgba(160,24,24,0.3);animation:fi 0.8s ease 0.25s both;}
+.intro-sous{font-family:var(--mono);font-size:10px;letter-spacing:4px;color:var(--rouge-vif);text-transform:uppercase;margin:20px 0 36px;animation:fi 0.8s ease 0.4s both;}
+.intro-div{display:flex;align-items:center;gap:16px;margin:0 auto 32px;animation:fi 0.8s ease 0.5s both;}
+.intro-div-line{flex:1;height:1px;background:linear-gradient(to right,transparent,var(--border2),transparent);}
+.intro-div-diamond{width:5px;height:5px;background:var(--rouge);transform:rotate(45deg);}
+.intro-accroche{font-family:var(--serif);font-size:15px;font-style:italic;color:var(--texte-dim);line-height:1.8;margin-bottom:48px;animation:fi 0.8s ease 0.6s both;}
+.intro-btns{display:flex;flex-direction:column;align-items:center;gap:10px;animation:fi 0.8s ease 0.75s both;}
+.btn-intro-p{background:var(--rouge);border:none;color:#fff;font-family:var(--mono);font-size:11px;font-weight:700;letter-spacing:3px;padding:15px 48px;cursor:pointer;text-transform:uppercase;transition:background 0.2s;}
+.btn-intro-p:hover{background:var(--rouge-vif);}
+.btn-intro-s{background:none;border:none;color:var(--texte-dim);font-family:var(--mono);font-size:10px;letter-spacing:2px;cursor:pointer;text-decoration:underline;text-underline-offset:4px;transition:color 0.2s;display:none;}
+.btn-intro-s:hover{color:var(--texte);}
+@keyframes fi{from{opacity:0;transform:translateY(16px);}to{opacity:1;transform:translateY(0);}}
+#ecran-setup{display:none;position:fixed;inset:0;z-index:200;background:var(--bg);overflow-y:auto;padding:20px;}
+.setup-inner{max-width:520px;margin:auto;padding:48px 0;}
+.setup-titre{font-family:var(--serif);font-size:32px;font-weight:700;font-style:italic;color:var(--texte-clair);margin-bottom:4px;}
+.setup-sous{font-family:var(--mono);font-size:10px;letter-spacing:2px;color:var(--texte-dim);margin-bottom:40px;}
 .setup-bloc{margin-bottom:28px;}
 .setup-label{font-family:var(--mono);font-size:10px;letter-spacing:3px;text-transform:uppercase;color:var(--texte-dim);display:block;margin-bottom:8px;}
-.setup-input{width:100%;background:var(--bg3);border:none;border-bottom:2px solid var(--border2);color:var(--texte-clair);font-family:var(--mono);font-size:14px;padding:10px 0;outline:none;transition:border-color 0.2s;border-radius:0;}
+.setup-input{width:100%;background:var(--bg3);border:none;border-bottom:2px solid var(--border2);color:var(--texte-clair);font-family:var(--serif);font-size:16px;padding:10px 12px;outline:none;transition:border-color 0.2s;}
 .setup-input:focus{border-bottom-color:var(--rouge);}
-.setup-input::placeholder{color:var(--texte-dim);}
-.perso-grid{display:grid;grid-template-columns:1fr 1fr;gap:12px;}
-.perso-carte{background:var(--bg3);border:2px solid var(--border);padding:20px 16px;cursor:pointer;transition:all 0.2s;position:relative;overflow:hidden;}
-.perso-carte::before{content:'';position:absolute;top:0;left:0;right:0;height:3px;background:var(--border);transition:background 0.2s;}
-.perso-carte:hover{border-color:var(--border2);}
-.perso-carte.sel{border-color:var(--rouge);background:rgba(192,16,32,0.06);}
-.perso-carte.sel::before{background:var(--rouge);}
-.perso-genre{font-family:var(--mono);font-size:9px;letter-spacing:3px;color:var(--rouge);text-transform:uppercase;margin-bottom:6px;}
-.perso-nom{font-family:var(--titre);font-size:24px;color:var(--texte-clair);letter-spacing:1px;text-transform:uppercase;margin-bottom:8px;}
-.perso-motif{font-family:var(--corps);font-size:13px;font-style:italic;color:var(--texte-dim);line-height:1.5;margin-bottom:10px;}
-.perso-force{font-family:var(--mono);font-size:10px;color:var(--texte-dim);line-height:1.6;}
-.btn-setup{width:100%;background:var(--rouge);border:none;color:#fff;font-family:var(--titre);font-size:18px;font-weight:400;letter-spacing:4px;padding:16px;cursor:pointer;transition:all 0.2s;text-transform:uppercase;clip-path:polygon(0 0,calc(100% - 12px) 0,100% 12px,100% 100%,12px 100%,0 calc(100% - 12px));margin-top:8px;}
-.btn-setup:hover{background:var(--rouge-vif);box-shadow:0 0 20px rgba(192,16,32,0.3);}
-.btn-setup:disabled{background:var(--gris);cursor:not-allowed;clip-path:none;box-shadow:none;}
-
-/* REPRISE */
-#ecran-reprise{display:none;position:fixed;inset:0;z-index:250;background:rgba(8,6,8,0.97);align-items:center;justify-content:center;padding:20px;}
-.reprise-box{background:var(--bg2);border:1px solid var(--border2);border-top:3px solid var(--rouge);max-width:440px;width:100%;padding:36px;clip-path:polygon(0 0,calc(100% - 14px) 0,100% 14px,100% 100%,0 100%);}
-.reprise-ref{font-family:var(--mono);font-size:9px;letter-spacing:4px;color:var(--rouge);text-transform:uppercase;margin-bottom:6px;}
-.reprise-titre{font-family:var(--titre);font-size:28px;color:var(--texte-clair);text-transform:uppercase;margin-bottom:24px;letter-spacing:2px;}
-.reprise-info{margin-bottom:24px;border-left:2px solid var(--rouge-dim);padding-left:14px;}
+.setup-input::placeholder{color:var(--texte-dim);font-style:italic;}
+.vict-grid{display:grid;grid-template-columns:1fr 1fr;gap:10px;}
+.vict-carte{background:var(--bg3);border:2px solid var(--border);padding:18px;cursor:pointer;transition:all 0.2s;}
+.vict-carte:hover{border-color:var(--border2);}
+.vict-carte.sel{border-color:var(--rouge);background:rgba(160,24,24,0.08);}
+.vict-tag{font-family:var(--mono);font-size:9px;letter-spacing:3px;color:var(--rouge-vif);text-transform:uppercase;margin-bottom:6px;}
+.vict-nom{font-family:var(--serif);font-size:17px;font-style:italic;color:var(--texte-clair);margin-bottom:5px;}
+.vict-desc{font-size:12px;color:var(--texte-dim);line-height:1.5;}
+.mode-grid{display:grid;grid-template-columns:1fr 1fr;gap:10px;}
+.mode-carte{background:var(--bg3);border:2px solid var(--border);padding:14px;cursor:pointer;transition:all 0.2s;text-align:center;}
+.mode-carte:hover{border-color:var(--border2);}
+.mode-carte.sel{border-color:var(--rouge);background:rgba(160,24,24,0.08);}
+.mode-nom{font-family:var(--mono);font-size:12px;font-weight:700;color:var(--texte-clair);margin-bottom:3px;letter-spacing:1px;text-transform:uppercase;}
+.mode-desc{font-family:var(--mono);font-size:10px;color:var(--texte-dim);}
+.btn-setup{width:100%;background:var(--rouge);border:none;color:#fff;font-family:var(--mono);font-size:11px;font-weight:700;letter-spacing:3px;padding:16px;cursor:pointer;text-transform:uppercase;transition:background 0.2s;margin-top:8px;}
+.btn-setup:hover{background:var(--rouge-vif);}
+.btn-setup:disabled{background:var(--border2);cursor:not-allowed;}
+#ecran-reprise{display:none;position:fixed;inset:0;z-index:250;background:rgba(15,13,11,0.96);align-items:center;justify-content:center;padding:20px;}
+.reprise-box{background:var(--bg2);border:1px solid var(--border2);max-width:420px;width:100%;padding:36px;}
+.reprise-titre{font-family:var(--serif);font-size:24px;font-weight:700;font-style:italic;color:var(--texte-clair);margin-bottom:4px;}
+.reprise-sous{font-family:var(--mono);font-size:10px;color:var(--texte-dim);letter-spacing:2px;margin-bottom:24px;}
+.reprise-info{background:var(--bg3);padding:14px;margin-bottom:24px;border-left:2px solid var(--rouge-dim);}
 .reprise-ligne{display:flex;justify-content:space-between;font-size:12px;padding:4px 0;font-family:var(--mono);}
 .reprise-cle{color:var(--texte-dim);}
-.reprise-val{color:var(--rouge);font-weight:500;}
+.reprise-val{color:var(--or-clair);}
 .reprise-btns{display:flex;gap:10px;}
 .reprise-btn{flex:1;padding:12px;border:none;font-family:var(--mono);font-size:10px;letter-spacing:2px;cursor:pointer;transition:all 0.2s;text-transform:uppercase;}
 .rbp{background:var(--rouge);color:#fff;}
 .rbp:hover{background:var(--rouge-vif);}
 .rbn{background:var(--bg3);color:var(--texte-dim);border:1px solid var(--border2);}
 .rbn:hover{border-color:var(--rouge-dim);color:var(--texte);}
-
-/* APP */
-#app{display:flex;flex-direction:column;min-height:100vh;max-width:1180px;margin:0 auto;padding:0 16px;position:relative;z-index:1;}
-header{display:flex;align-items:center;justify-content:space-between;padding:14px 0 12px;border-bottom:2px solid var(--rouge-dim);flex-shrink:0;}
-.logo{font-family:var(--titre);font-size:22px;color:var(--texte-clair);letter-spacing:3px;text-transform:uppercase;text-shadow:0 0 20px rgba(192,16,32,0.3);}
-.header-droite{display:flex;align-items:center;gap:12px;}
-.acte-tag{font-family:var(--mono);font-size:9px;letter-spacing:3px;color:#fff;background:var(--rouge-dim);padding:3px 10px;text-transform:uppercase;}
-.perso-tag{font-family:var(--mono);font-size:9px;letter-spacing:2px;color:var(--rouge);border:1px solid var(--rouge-dim);padding:3px 8px;text-transform:uppercase;}
+#app{display:flex;flex-direction:column;min-height:100vh;max-width:1100px;margin:0 auto;padding:0 16px;}
+header{display:flex;align-items:center;justify-content:space-between;padding:16px 0 14px;border-bottom:1px solid var(--border);flex-shrink:0;}
+.logo{font-family:var(--serif);font-size:22px;font-weight:700;font-style:italic;color:var(--texte-clair);}
+.header-droite{display:flex;align-items:center;gap:14px;}
+.target-badge{font-family:var(--mono);font-size:9px;letter-spacing:2px;color:var(--rouge-vif);border:1px solid var(--rouge-dim);padding:3px 8px;text-transform:uppercase;}
 .sauv{font-family:var(--mono);font-size:10px;color:var(--texte-dim);}
-.sauv.ok{color:var(--vert);}
-.sauv.cours{color:var(--or);}
-
-.vg-panel-btn{background:none;border:1px solid var(--rouge-dim);color:var(--texte-dim);font-family:var(--mono);font-size:9px;padding:3px 9px;cursor:pointer;transition:all 0.2s;letter-spacing:1px;text-transform:uppercase;}
-.vg-panel-btn:hover{border-color:var(--rouge-vif);color:var(--rouge-vif);}
+.sauv.ok{color:#4a9a4a;}
+.sauv.cours{color:var(--or-clair);}
+.vg-panel-btn{background:none;border:1px solid var(--border);color:var(--texte-dim);font-family:var(--mono);font-size:9px;padding:4px 10px;cursor:pointer;transition:all 0.2s;letter-spacing:1px;text-transform:uppercase;}
+.vg-panel-btn:hover{border-color:var(--rouge-vif);color:var(--or-clair);}
 #vg-panel{display:none;background:var(--bg2);border-bottom:1px solid var(--border);padding:12px 0;}
 #vg-panel.open{display:block;}
-.vg-panel-inner{display:grid;grid-template-columns:repeat(auto-fit,minmax(160px,1fr));gap:14px;}
-.vg-bloc-title{font-family:var(--mono);font-size:9px;letter-spacing:3px;text-transform:uppercase;color:var(--texte-dim);border-bottom:1px solid var(--border);padding-bottom:5px;margin-bottom:8px;}
-.vg-row{display:flex;justify-content:space-between;align-items:center;padding:3px 0;font-size:11px;}
+.vg-inner{display:grid;grid-template-columns:repeat(auto-fit,minmax(150px,1fr));gap:12px;}
+.vg-title{font-family:var(--mono);font-size:9px;letter-spacing:3px;text-transform:uppercase;color:var(--rouge-vif);border-bottom:1px solid var(--border);padding-bottom:5px;margin-bottom:8px;}
+.vg-row{display:flex;justify-content:space-between;align-items:center;padding:2px 0;font-size:11px;}
 .vg-key{color:var(--texte-dim);font-family:var(--mono);}
-.vg-val{color:var(--rouge);font-family:var(--mono);font-weight:500;}
-.vg-barre-wrap{background:var(--bg4);height:3px;margin-top:2px;margin-bottom:5px;overflow:hidden;}
-.vg-barre{height:100%;background:var(--rouge);transition:width 0.4s ease;}
-.vg-item{font-family:var(--mono);font-size:10px;padding:2px 0;}
-@media(max-width:600px){.vg-panel-inner{grid-template-columns:1fr 1fr;}}
-
+.vg-val{color:var(--or-clair);font-family:var(--mono);font-weight:bold;}
+.vg-bar-wrap{background:var(--bg4);height:2px;margin-top:1px;margin-bottom:4px;overflow:hidden;}
+.vg-bar{height:100%;background:var(--rouge);transition:width 0.4s ease;}
+@media(max-width:700px){.vg-inner{grid-template-columns:1fr 1fr;}}
 .main{display:block;flex:1;padding:14px 0;min-height:0;}
-
-/* PANNEAU STATUT */
-.statut-panel{display:none;}
-.st-bloc{background:var(--bg2);border:1px solid var(--border);position:relative;z-index:5;}
-.st-titre{font-family:var(--mono);font-size:9px;letter-spacing:3px;text-transform:uppercase;color:var(--texte-dim);background:var(--bg3);padding:5px 12px;border-bottom:1px solid var(--border);}
-.st-inner{padding:12px 14px;}
-.st-ligne{display:flex;justify-content:space-between;align-items:center;padding:3px 0;}
-.st-nom{font-family:var(--mono);font-size:10px;color:var(--texte-dim);}
-.st-val{font-family:var(--mono);font-size:11px;color:var(--rouge);font-weight:500;}
-.st-barre-wrap{background:var(--bg4);height:3px;margin-top:2px;margin-bottom:5px;overflow:hidden;}
-.st-barre{height:100%;background:var(--rouge);transition:width 0.4s ease;}
-.st-barre.vert{background:var(--vert);}
-.st-barre.or{background:var(--or);}
-.perso-statut{text-align:center;padding:16px 12px;border-left:3px solid var(--rouge-dim);}
-.ps-nom{font-family:var(--titre);font-size:20px;color:var(--texte-clair);letter-spacing:1px;text-transform:uppercase;}
-.ps-type{font-family:var(--mono);font-size:9px;letter-spacing:2px;color:var(--rouge);text-transform:uppercase;margin-top:3px;}
-.ps-acte{font-family:var(--mono);font-size:9px;color:var(--texte-dim);margin-top:6px;padding-top:6px;border-top:1px solid var(--border);}
-.blessure-item{font-family:var(--mono);font-size:10px;color:var(--rouge);padding:3px 0;border-bottom:1px solid var(--border);line-height:1.4;}
-.blessure-item:last-child{border-bottom:none;}
-.blessure-vide{font-family:var(--mono);font-size:10px;color:var(--border2);font-style:italic;}
-.allie-item{font-family:var(--mono);font-size:10px;color:var(--or);padding:3px 0;border-bottom:1px solid var(--border);}
-.allie-item:last-child{border-bottom:none;}
-.allie-vide{font-family:var(--mono);font-size:10px;color:var(--border2);font-style:italic;}
-.btn-prem{width:100%;padding:11px;background:linear-gradient(135deg,var(--rouge-dim),var(--rouge-sang));color:#fff;border:none;font-family:var(--mono);font-size:9px;letter-spacing:2px;cursor:pointer;text-transform:uppercase;transition:opacity 0.2s;}
-.btn-prem:hover{opacity:0.85;}
-
-/* JEU */
-.jeu-panel{flex:1;display:flex;flex-direction:column;min-width:0;gap:10px;position:relative;z-index:5;}
-#recit{flex:1;background:var(--bg2);border:1px solid var(--border);border-left:3px solid var(--rouge-dim);padding:22px;overflow-y:auto;min-height:calc(100vh - 140px);position:relative;z-index:5;}
-.entree{margin-bottom:22px;animation:fadeIn 0.3s ease;position:relative;z-index:5;}
-@keyframes fadeIn{from{opacity:0;transform:translateY(4px);}to{opacity:1;transform:translateY(0);}}
-.entree p{font-family:var(--corps);font-size:21px;line-height:1.9;color:var(--texte-clair);margin-bottom:10px;}
-.action-joueur{font-family:var(--mono);font-size:11px;color:var(--texte-dim);padding:7px 12px;border-left:3px solid var(--rouge-dim);margin-bottom:12px;background:rgba(192,16,32,0.04);}
-.action-bloc{background:var(--bg3);border:1px solid var(--border2);border-left:4px solid var(--rouge);padding:14px 16px;margin:10px 0;}
-.action-header{font-family:var(--mono);font-size:9px;letter-spacing:3px;color:var(--rouge);text-transform:uppercase;margin-bottom:6px;}
-.action-texte{font-family:var(--corps);font-size:14px;font-style:italic;color:var(--texte-clair);line-height:1.7;}
-.consequence-bloc{background:rgba(138,0,16,0.08);border:1px solid var(--rouge-dim);padding:12px 14px;margin:8px 0;}
-.consequence-header{font-family:var(--mono);font-size:9px;letter-spacing:3px;color:var(--rouge-dim);text-transform:uppercase;margin-bottom:4px;}
-.consequence-texte{font-family:var(--mono);font-size:11px;color:var(--texte-dim);line-height:1.5;}
-.maj-stats{font-family:var(--mono);font-size:11px;color:var(--rouge);padding:6px 10px;background:rgba(192,16,32,0.06);border-left:2px solid var(--rouge-dim);margin-top:8px;letter-spacing:1px;}
-.sep{border:none;border-top:1px solid var(--border);margin:14px 0;}
-.curseur{display:inline-block;width:2px;height:14px;background:var(--rouge);animation:clign 0.7s infinite;vertical-align:text-bottom;margin-left:2px;}
+.stats-panel{display:none;}
+.jeu-panel{flex:1;display:flex;flex-direction:column;min-width:0;}
+#recit{flex:1;background:var(--bg2);border:1px solid var(--border);padding:24px;overflow-y:auto;min-height:calc(100svh - 140px);font-family:var(--serif);padding-bottom:85px;}
+.entree{margin-bottom:22px;animation:fadeIn 0.4s ease;}
+@keyframes fadeIn{from{opacity:0;transform:translateY(5px);}to{opacity:1;transform:translateY(0);}}
+.entree p{font-size:22px;line-height:1.9;color:var(--texte-clair);margin-bottom:10px;}
+.action-joueur{font-family:var(--mono);font-size:11px;color:var(--texte-dim);padding:8px 14px;border-left:2px solid var(--border2);margin-bottom:14px;letter-spacing:0.5px;}
+.maj-stats{font-family:var(--mono);font-size:11px;color:var(--or-clair);padding:6px 10px;background:rgba(176,128,48,0.06);border-left:2px solid var(--or);margin-top:8px;letter-spacing:1px;}
+.sep{border:none;border-top:1px solid var(--border);margin:16px 0;opacity:0.5;}
+.curseur{display:inline-block;width:2px;height:14px;background:var(--rouge-vif);animation:clign 0.7s infinite;vertical-align:text-bottom;margin-left:2px;}
 @keyframes clign{0%,50%{opacity:1;}51%,100%{opacity:0;}}
-.choix-bloc{background:var(--bg3);border:1px solid var(--border2);border-top:3px solid var(--rouge);padding:14px 16px;margin-top:12px;position:relative;z-index:10;}
+.choix-bloc{background:var(--bg3);border:1px solid var(--border2);border-left:2px solid var(--rouge-dim);padding:14px 16px;margin-top:12px;}
 .choix-titre{font-family:var(--mono);font-size:9px;letter-spacing:3px;text-transform:uppercase;color:var(--texte-dim);margin-bottom:10px;}
-.choix-btn{display:block;width:100%;text-align:left;background:var(--bg2);border:1px solid var(--border);border-left:3px solid transparent;color:var(--texte-clair);font-family:var(--corps);font-size:18px;padding:14px 14px;margin-bottom:7px;cursor:pointer;transition:all 0.2s;line-height:1.5;position:relative;z-index:10;pointer-events:auto;}
-.choix-btn:hover{background:rgba(192,16,32,0.1);border-left-color:var(--rouge);border-color:var(--rouge-dim);text-shadow:0 0 8px rgba(192,16,32,0.3);}
+.choix-btn{display:block;width:100%;text-align:left;background:none;border:1px solid var(--border);color:var(--texte);font-family:var(--serif);font-size:19px;padding:13px 14px;margin-bottom:7px;cursor:pointer;transition:all 0.2s;line-height:1.5;}
+.choix-btn:hover{background:rgba(160,24,24,0.1);border-color:var(--rouge-dim);color:var(--texte-clair);}
 .choix-btn:last-child{margin-bottom:0;}
-.fin-bloc{border:2px solid var(--rouge);padding:28px;margin:12px 0;position:relative;}
-.fin-bloc::before{content:'';position:absolute;top:0;left:0;right:0;height:2px;background:linear-gradient(90deg,var(--rouge-vif),var(--rouge-dim),transparent);}
-.fin-type{font-family:var(--mono);font-size:9px;letter-spacing:3px;color:var(--texte-dim);text-transform:uppercase;margin-bottom:8px;}
-.fin-titre{font-family:var(--titre);font-size:28px;color:var(--texte-clair);text-transform:uppercase;letter-spacing:2px;margin-bottom:12px;}
-.fin-texte{font-family:var(--corps);font-size:15px;font-style:italic;color:var(--texte);line-height:1.8;}
-.fin-restart{margin-top:16px;background:var(--rouge);border:none;color:#fff;font-family:var(--mono);font-size:10px;letter-spacing:2px;padding:10px 24px;cursor:pointer;text-transform:uppercase;transition:background 0.2s;}
-.fin-restart:hover{background:var(--rouge-vif);}
+.input-zone{display:flex;gap:8px;flex-shrink:0;position:fixed;bottom:0;left:0;right:0;background:var(--bg);border-top:1px solid var(--border);padding:10px 16px;z-index:100;max-width:1100px;margin:0 auto;box-sizing:border-box;}
+#input-joueur{flex:1;background:var(--bg2);border:1px solid var(--border);color:var(--texte);font-family:var(--serif);font-size:14px;padding:12px 14px;resize:none;height:52px;outline:none;transition:border-color 0.2s;}
+#input-joueur:focus{border-color:var(--rouge-dim);}
+#input-joueur::placeholder{color:var(--texte-dim);font-style:italic;}
+#btn-envoyer{background:var(--rouge);border:none;color:#fff;font-family:var(--mono);font-size:10px;letter-spacing:2px;padding:0 18px;cursor:pointer;transition:background 0.2s;flex-shrink:0;text-transform:uppercase;}
+#btn-envoyer:hover{background:var(--rouge-vif);}
+#btn-envoyer:disabled{background:var(--border2);cursor:not-allowed;}
 ::-webkit-scrollbar{width:4px;}
 ::-webkit-scrollbar-track{background:var(--bg);}
-::-webkit-scrollbar-thumb{background:var(--rouge-dim);border-radius:2px;}
-::-webkit-scrollbar-thumb:hover{background:var(--rouge);}
+::-webkit-scrollbar-thumb{background:var(--border2);}
+::-webkit-scrollbar-thumb:hover{background:var(--rouge-dim);}
 @media(max-width:700px){
   #app{padding:0 8px;}
   .main{flex-direction:column;gap:8px;padding:8px 0;}
-  #recit{min-height:calc(100vh - 160px);padding:16px;}
+  #recit{padding:16px;padding-bottom:85px;}
   .entree p{font-size:19px;line-height:1.85;}
-  .choix-btn{font-size:17px;padding:14px 12px;}
-  .perso-grid{grid-template-columns:1fr;}
+  .choix-btn{font-size:17px;padding:12px;}
+  .logo{font-size:18px;}
 }
 </style>
 </head>
@@ -188,228 +139,224 @@ header{display:flex;align-items:center;justify-content:space-between;padding:14p
   <a href="https://recitgames.vercel.app">&#9664; RÉCIT GAMES</a>
 </div>
 
-<!-- INTRO -->
 <div id="ecran-intro">
-  <svg style="position:absolute;inset:0;width:100%;height:100%;z-index:0;" viewBox="0 0 800 600" preserveAspectRatio="xMidYMid slice" xmlns="http://www.w3.org/2000/svg">
-    <defs>
-      <linearGradient id="bg-v" x1="0" y1="0" x2="0" y2="1"><stop offset="0%" stop-color="#080608"/><stop offset="100%" stop-color="#050305"/></linearGradient>
-      <radialGradient id="lum-v" cx="15%" cy="40%" r="40%"><stop offset="0%" stop-color="rgba(192,16,32,0.18)"/><stop offset="100%" stop-color="transparent"/></radialGradient>
-      <radialGradient id="lum-v2" cx="85%" cy="60%" r="30%"><stop offset="0%" stop-color="rgba(192,16,32,0.08)"/><stop offset="100%" stop-color="transparent"/></radialGradient>
-    </defs>
-    <rect width="800" height="600" fill="url(#bg-v)"/><rect width="800" height="600" fill="url(#lum-v)"/><rect width="800" height="600" fill="url(#lum-v2)"/>
-    <rect x="0" y="180" width="60" height="420" fill="#0a0808"/><rect x="55" y="140" width="45" height="460" fill="#0c0a0a"/><rect x="95" y="200" width="35" height="400" fill="#080606"/><rect x="125" y="100" width="55" height="500" fill="#0e0c0c"/>
-    <rect x="175" y="80" width="70" height="520" fill="#0f0d0d"/><rect x="195" y="50" width="30" height="60" fill="#0f0d0d"/><rect x="208" y="20" width="4" height="35" fill="#0f0d0d"/>
-    <rect x="250" y="150" width="50" height="450" fill="#0b0909"/><rect x="295" y="110" width="65" height="490" fill="#0d0b0b"/><rect x="355" y="170" width="40" height="430" fill="#0a0808"/><rect x="390" y="120" width="55" height="480" fill="#0c0a0a"/><rect x="440" y="90" width="70" height="510" fill="#0e0c0c"/>
-    <rect x="505" y="130" width="60" height="470" fill="#0f0d0d"/><rect x="515" y="100" width="40" height="40" fill="#0f0d0d"/><rect x="523" y="70" width="24" height="35" fill="#0f0d0d"/><rect x="529" y="45" width="12" height="30" fill="#0f0d0d"/><rect x="533" y="25" width="4" height="25" fill="#0f0d0d"/>
-    <rect x="560" y="160" width="45" height="440" fill="#0b0909"/><rect x="600" y="140" width="55" height="460" fill="#0d0b0b"/><rect x="650" y="190" width="40" height="410" fill="#090707"/><rect x="685" y="120" width="60" height="480" fill="#0c0a0a"/><rect x="740" y="160" width="60" height="440" fill="#0a0808"/>
-    <rect x="130" y="110" width="4" height="4" fill="rgba(192,16,32,0.6)"/><rect x="180" y="90" width="4" height="4" fill="rgba(200,160,30,0.5)"/><rect x="195" y="105" width="4" height="4" fill="rgba(192,16,32,0.6)"/><rect x="300" y="118" width="4" height="4" fill="rgba(192,16,32,0.6)"/><rect x="450" y="100" width="4" height="4" fill="rgba(192,16,32,0.6)"/><rect x="515" y="140" width="4" height="4" fill="rgba(192,16,32,0.5)"/><rect x="695" y="130" width="4" height="4" fill="rgba(192,16,32,0.6)"/>
-    <rect x="0" y="500" width="800" height="100" fill="#060404"/><rect x="0" y="498" width="800" height="4" fill="#0e0a0a"/>
-    <rect x="0" y="520" width="800" height="3" fill="rgba(200,160,30,0.2)"/>
-    <ellipse cx="200" cy="525" rx="120" ry="8" fill="rgba(192,16,32,0.08)"/>
-    <rect x="391" y="440" width="18" height="60" fill="#060404" rx="2"/><circle cx="400" cy="435" r="10" fill="#060404"/>
-    <rect x="375" y="450" width="16" height="6" fill="#060404" rx="2" transform="rotate(-20,383,453)"/><rect x="409" y="450" width="16" height="6" fill="#060404" rx="2" transform="rotate(20,417,453)"/>
-    <ellipse cx="400" cy="500" rx="25" ry="4" fill="rgba(0,0,0,0.6)"/>
-    <line x1="150" y1="500" x2="150" y2="420" stroke="rgba(40,30,30,0.8)" stroke-width="3"/><line x1="150" y1="420" x2="168" y2="413" stroke="rgba(40,30,30,0.8)" stroke-width="2"/><circle cx="168" cy="412" r="4" fill="rgba(200,160,30,0.5)"/>
-    <line x1="370" y1="510" x2="430" y2="508" stroke="rgba(192,16,32,0.4)" stroke-width="2"/>
-    <radialGradient id="vig-v" cx="50%" cy="50%" r="70%"><stop offset="0%" stop-color="transparent"/><stop offset="100%" stop-color="rgba(5,3,5,0.75)"/></radialGradient>
-    <rect width="800" height="600" fill="url(#vig-v)"/>
-  </svg>
-
   <div class="intro-inner">
-    <div class="intro-tag">New York · Anti-héros · Roman interactif</div>
-    <div class="intro-titre">VENGEANCE</div>
-    <div class="intro-barre"></div>
-    <div class="intro-sous">Récit Games · Action pure</div>
+    <div class="intro-tag">Récit Games · Thriller interactif</div>
+    <div class="intro-titre">Vengeance</div>
+    <div class="intro-sous">Une liste. Cinq noms. Zéro pitié.</div>
+    <div class="intro-div">
+      <div class="intro-div-line"></div>
+      <div class="intro-div-diamond"></div>
+      <div class="intro-div-line"></div>
+    </div>
     <div class="intro-accroche">
-      Il n'y a plus rien à perdre.<br>
-      C'est ça le problème avec quelqu'un<br>
-      qui n'a plus rien à perdre.
+      Ils ont détruit ta famille.<br>
+      Tu as survécu.<br>
+      Maintenant tu reviens.
     </div>
     <div class="intro-btns">
-      <button class="btn-intro-p" onclick="afficherSetup()">Commencer la traque</button>
-      <button class="btn-intro-s" id="btn-reprendre-intro" onclick="clicReprendre()">Reprendre</button>
+      <button class="btn-intro-p" onclick="afficherSetup()">Commencer</button>
+      <button class="btn-intro-s" id="btn-reprendre-intro" onclick="clicReprendre()">Reprendre ma partie</button>
     </div>
   </div>
 </div>
 
-<!-- SETUP -->
 <div id="ecran-setup">
-  <div class="setup-wrap">
-    <div class="setup-entete">
-      <div class="setup-ref">Choix du personnage — New York</div>
-      <div class="setup-titre">VENGEANCE</div>
+  <div class="setup-inner">
+    <div class="setup-titre">Vengeance</div>
+    <div class="setup-sous">Configuration — Récit Games</div>
+
+    <div class="setup-bloc">
+      <label class="setup-label">Ton prénom</label>
+      <input class="setup-input" type="text" id="prenom-input" placeholder="Ton prénom..." maxlength="20"/>
     </div>
 
     <div class="setup-bloc">
-      <label class="setup-label">Ton personnage</label>
-      <div class="perso-grid">
-        <div class="perso-carte" id="perso-homme" onclick="choisirPerso('homme')">
-          <div class="perso-genre">Homme</div>
-          <div class="perso-nom">L'Homme brisé</div>
-          <div class="perso-motif">Sa famille a été assassinée par une organisation. Il a survécu par accident. Maintenant il remonte la chaîne.</div>
-          <div class="perso-force">Force : tactique, sang-froid<br>Faiblesse : la rage peut le trahir</div>
+      <label class="setup-label">Ta cible principale</label>
+      <div class="vict-grid">
+        <div class="vict-carte" id="cible-vitto" onclick="choisirCible('vitto')">
+          <div class="vict-tag">La famille</div>
+          <div class="vict-nom">Vitto Maranzano</div>
+          <div class="vict-desc">Parrain. Il a ordonné l'exécution. Il n'a jamais sali ses mains. Il vit dans l'impunité depuis 8 ans.</div>
         </div>
-        <div class="perso-carte" id="perso-femme" onclick="choisirPerso('femme')">
-          <div class="perso-genre">Femme</div>
-          <div class="perso-nom">La Femme qui réclame</div>
-          <div class="perso-motif">Elle a survécu à un abus commis par un homme puissant. La justice a échoué. Elle agit seule.</div>
-          <div class="perso-force">Force : intelligence, infiltration<br>Faiblesse : confrontations directes</div>
+        <div class="vict-carte" id="cible-moreau" onclick="choisirCible('moreau')">
+          <div class="vict-tag">Le système</div>
+          <div class="vict-nom">Juge Moreau</div>
+          <div class="vict-desc">Il a étouffé le dossier. Il est couvert, intouchable, respecté. Le pire type de corruption.</div>
+        </div>
+        <div class="vict-carte" id="cible-santos" onclick="choisirCible('santos')">
+          <div class="vict-tag">La trahison</div>
+          <div class="vict-nom">Elena Santos</div>
+          <div class="vict-desc">Ancienne complice. Elle t'a dénoncé pour se sauver. Elle vit une autre vie maintenant.</div>
+        </div>
+        <div class="vict-carte" id="cible-directeur" onclick="choisirCible('directeur')">
+          <div class="vict-tag">Le pouvoir</div>
+          <div class="vict-nom">Le Directeur</div>
+          <div class="vict-desc">Identité inconnue. Il tire les fils depuis l'ombre. Ta vraie cible finale.</div>
         </div>
       </div>
     </div>
 
     <div class="setup-bloc">
-      <label class="setup-label">Prénom du personnage</label>
-      <input class="setup-input" type="text" id="prenom-input" placeholder="Prénom..." maxlength="20"/>
+      <label class="setup-label">Ton approche</label>
+      <div class="vict-grid">
+        <div class="vict-carte" id="approche-ombre" onclick="choisirApproche('ombre')">
+          <div class="vict-tag">Discrétion</div>
+          <div class="vict-nom">Dans l'ombre</div>
+          <div class="vict-desc">Infiltration, manipulation, patience. Tu disparais avant qu'ils comprennent ce qui s'est passé.</div>
+        </div>
+        <div class="vict-carte" id="approche-force" onclick="choisirApproche('force')">
+          <div class="vict-tag">Direct</div>
+          <div class="vict-nom">Par la force</div>
+          <div class="vict-desc">Affrontement, intimidation, escalade. Plus rapide. Beaucoup plus dangereux.</div>
+        </div>
+      </div>
     </div>
 
-    <button class="btn-setup" id="btn-lancer" onclick="lancerJeu()" disabled>Entrer dans la nuit</button>
-    <p style="font-family:var(--mono);font-size:10px;color:var(--texte-dim);text-align:center;margin-top:12px;letter-spacing:1px;">L'organisation est générée aléatoirement · Chaque partie est unique</p>
+    <div class="setup-bloc">
+      <label class="setup-label">Mode d'interaction</label>
+      <div class="mode-grid">
+        <div class="mode-carte sel" id="mode-boutons" onclick="choisirMode('boutons')">
+          <div class="mode-nom">Boutons</div>
+          <div class="mode-desc">4 choix proposés</div>
+        </div>
+        <div class="mode-carte" id="mode-libre" onclick="choisirMode('libre')">
+          <div class="mode-nom">Libre</div>
+          <div class="mode-desc">Tu décides</div>
+        </div>
+      </div>
+    </div>
+
+    <button class="btn-setup" id="btn-lancer" onclick="lancerJeu()" disabled>Commencer la vengeance</button>
+    <p style="font-family:var(--mono);font-size:10px;color:var(--texte-dim);text-align:center;margin-top:12px;letter-spacing:1px;">Progression sauvegardée automatiquement</p>
   </div>
 </div>
 
-<!-- REPRISE -->
 <div id="ecran-reprise">
   <div class="reprise-box">
-    <div class="reprise-ref">Traque en cours</div>
-    <div class="reprise-titre">VENGEANCE</div>
+    <div class="reprise-titre">Vengeance</div>
+    <div class="reprise-sous">Partie sauvegardée</div>
     <div class="reprise-info" id="reprise-info"></div>
     <div class="reprise-btns">
-      <button class="reprise-btn rbp" id="btn-continuer">Reprendre</button>
+      <button class="reprise-btn rbp" id="btn-continuer">Continuer</button>
       <button class="reprise-btn rbn" id="btn-nouvelle">Nouvelle partie</button>
     </div>
   </div>
 </div>
 
-<!-- APP -->
 <div id="app">
   <header>
-    <div class="logo">VENGEANCE</div>
+    <div class="logo">Vengeance</div>
     <div class="header-droite">
-      <div class="acte-tag" id="acte-tag">Acte 1</div>
-      <div class="perso-tag" id="perso-tag">—</div>
+      <div class="target-badge" id="target-badge">—</div>
       <div class="sauv" id="sauv-ind">● prêt</div>
-      <button class="vg-panel-btn" onclick="toggleVgPanel()">Opération ▾</button>
+      <button class="vg-panel-btn" onclick="toggleVgPanel()">Dossier ▾</button>
     </div>
   </header>
 
-  <!-- Panneau déroulant -->
   <div id="vg-panel">
-    <div class="vg-panel-inner">
+    <div class="vg-inner">
       <div>
-        <div class="vg-bloc-title">Identité</div>
-        <div style="font-family:var(--titre);font-size:16px;color:var(--texte-clair);letter-spacing:1px;text-transform:uppercase;" id="vg-nom">—</div>
-        <div style="font-family:var(--mono);font-size:9px;color:var(--rouge);letter-spacing:2px;margin-top:3px;" id="vg-type">—</div>
-        <div style="font-family:var(--mono);font-size:9px;color:var(--texte-dim);margin-top:6px;" id="vg-acte">Acte 1 · New York</div>
-        <div style="font-family:var(--mono);font-size:9px;color:var(--texte-dim);margin-top:4px;" id="vg-orga">Organisation : —</div>
+        <div class="vg-title">Chasseur</div>
+        <div style="font-family:var(--serif);font-size:16px;font-style:italic;color:var(--texte-clair);" id="vg-nom">—</div>
+        <div style="font-family:var(--mono);font-size:9px;color:var(--rouge-vif);letter-spacing:2px;text-transform:uppercase;margin-top:3px;" id="vg-approche">—</div>
+        <div class="vg-row" style="margin-top:8px;"><span class="vg-key">Phase</span><span class="vg-val" id="vg-phase">1</span></div>
+        <div class="vg-row"><span class="vg-key">Lieu</span><span class="vg-val" id="vg-lieu" style="font-size:10px;">Paris</span></div>
+        <div class="vg-row"><span class="vg-key">Choix</span><span class="vg-val" id="vg-choix">0</span></div>
       </div>
       <div>
-        <div class="vg-bloc-title">État physique</div>
+        <div class="vg-title">Capacités</div>
+        <div class="vg-row"><span class="vg-key">Discrétion</span><span class="vg-val" id="vg-discretion">60</span></div>
+        <div class="vg-bar-wrap"><div class="vg-bar" id="vg-b-discretion" style="width:60%;background:#4a8a9a;"></div></div>
+        <div class="vg-row"><span class="vg-key">Réseau</span><span class="vg-val" id="vg-reseau">20</span></div>
+        <div class="vg-bar-wrap"><div class="vg-bar" id="vg-b-reseau" style="width:20%;background:var(--or);"></div></div>
+        <div class="vg-row"><span class="vg-key">Force</span><span class="vg-val" id="vg-force">70</span></div>
+        <div class="vg-bar-wrap"><div class="vg-bar" id="vg-b-force" style="width:70%;"></div></div>
+        <div class="vg-row"><span class="vg-key">Sang-froid</span><span class="vg-val" id="vg-sangfroid">80</span></div>
+        <div class="vg-bar-wrap"><div class="vg-bar" id="vg-b-sangfroid" style="width:80%;background:#4a6a4a;"></div></div>
+      </div>
+      <div>
+        <div class="vg-title">Situation</div>
+        <div class="vg-row"><span class="vg-key">Argent</span><span class="vg-val" id="vg-argent">0 €</span></div>
+        <div class="vg-row"><span class="vg-key">Exposition</span><span class="vg-val" id="vg-exposition">0</span></div>
+        <div class="vg-bar-wrap"><div class="vg-bar" id="vg-b-exposition" style="width:0%;"></div></div>
         <div class="vg-row"><span class="vg-key">Santé</span><span class="vg-val" id="vg-sante">100</span></div>
-        <div class="vg-barre-wrap"><div class="vg-barre" id="vg-b-sante" style="width:100%;background:var(--vert);"></div></div>
-        <div class="vg-row"><span class="vg-key">Énergie</span><span class="vg-val" id="vg-energie">100</span></div>
-        <div class="vg-barre-wrap"><div class="vg-barre" id="vg-b-energie" style="width:100%;"></div></div>
+        <div class="vg-bar-wrap"><div class="vg-bar" id="vg-b-sante" style="width:100%;background:#4a9a4a;"></div></div>
+        <div class="vg-title" style="margin-top:10px;">Cibles éliminées</div>
+        <div id="vg-cibles-elim"><div style="font-size:11px;color:var(--texte-dim);font-style:italic;">Aucune</div></div>
       </div>
       <div>
-        <div class="vg-bloc-title">Pression</div>
-        <div class="vg-row"><span class="vg-key">Flics</span><span class="vg-val" id="vg-flics">0</span></div>
-        <div class="vg-barre-wrap"><div class="vg-barre" id="vg-b-flics" style="width:0%;background:var(--or);"></div></div>
-        <div class="vg-row"><span class="vg-key">Alerte orga</span><span class="vg-val" id="vg-alerte">0</span></div>
-        <div class="vg-barre-wrap"><div class="vg-barre" id="vg-b-alerte" style="width:0%;"></div></div>
-        <div class="vg-row"><span class="vg-key">Échelon</span><span class="vg-val" id="vg-echelon">0 / 5</span></div>
-        <div class="vg-row"><span class="vg-key">Dette morale</span><span class="vg-val" id="vg-dette">0</span></div>
-      </div>
-      <div>
-        <div class="vg-bloc-title">Blessures</div>
-        <div id="vg-blessures"><div class="vg-item" style="color:var(--texte-dim);font-style:italic;">Aucune</div></div>
-        <div class="vg-bloc-title" style="margin-top:10px;">Alliés</div>
-        <div id="vg-allies"><div class="vg-item" style="color:var(--texte-dim);font-style:italic;">Aucun</div></div>
-      </div>
-      <div>
-        <div class="vg-bloc-title">Cibles éliminées</div>
-        <div id="vg-cibles"><div class="vg-item" style="color:var(--texte-dim);font-style:italic;">Aucune</div></div>
+        <div class="vg-title">Inventaire</div>
+        <div id="vg-inventaire"><div style="font-size:11px;color:var(--texte-dim);font-style:italic;">Vide</div></div>
+        <div style="margin-top:12px;">
+          <button style="width:100%;padding:10px;background:linear-gradient(135deg,var(--rouge-dim),var(--or));color:#fff;border:none;font-family:var(--mono);font-size:9px;cursor:pointer;letter-spacing:2px;text-transform:uppercase;" onclick="afficherSaisieCode()">Premium — 7€/mois</button>
+        </div>
       </div>
     </div>
   </div>
 
   <div class="main">
-    <div class="statut-panel">
-      <div class="st-bloc perso-statut">
-        <div class="ps-nom" id="ps-nom">—</div>
-        <div class="ps-type" id="ps-type">—</div>
-        <div class="ps-acte" id="ps-acte">Acte 1 · New York</div>
-      </div>
-      <div class="st-bloc">
-        <div class="st-titre">État physique</div>
-        <div class="st-inner">
-          <div class="st-ligne"><span class="st-nom">Santé</span><span class="st-val" id="s-sante">100</span></div>
-          <div class="st-barre-wrap"><div class="st-barre vert" id="b-sante" style="width:100%"></div></div>
-          <div class="st-ligne"><span class="st-nom">Énergie</span><span class="st-val" id="s-energie">100</span></div>
-          <div class="st-barre-wrap"><div class="st-barre" id="b-energie" style="width:100%"></div></div>
-        </div>
-      </div>
-      <div class="st-bloc">
-        <div class="st-titre">Situation</div>
-        <div class="st-inner">
-          <div class="st-ligne"><span class="st-nom">Pression flics</span><span class="st-val" id="s-flics">0</span></div>
-          <div class="st-barre-wrap"><div class="st-barre or" id="b-flics" style="width:0%"></div></div>
-          <div class="st-ligne"><span class="st-nom">Alerte orga</span><span class="st-val" id="s-alerte">0</span></div>
-          <div class="st-barre-wrap"><div class="st-barre" id="b-alerte" style="width:0%"></div></div>
-          <div class="st-ligne"><span class="st-nom">Échelon atteint</span><span class="st-val" id="s-echelon">0 / 5</span></div>
-        </div>
-      </div>
-      <div class="st-bloc">
-        <div class="st-titre">Blessures</div>
-        <div class="st-inner"><div id="blessures-liste"><div class="blessure-vide">Aucune</div></div></div>
-      </div>
-      <div class="st-bloc">
-        <div class="st-titre">Alliés</div>
-        <div class="st-inner"><div id="allies-liste"><div class="allie-vide">Aucun</div></div></div>
-      </div>
-      <div class="st-bloc" style="padding:10px 14px;">
-        <button class="btn-prem" onclick="afficherSaisieCode()">Premium — 7€/mois</button>
-      </div>
-    </div>
-
+    <div class="stats-panel"></div>
     <div class="jeu-panel">
       <div id="recit"></div>
+      <div class="input-zone">
+        <textarea id="input-joueur" placeholder="Que fais-tu ? (Entrée pour envoyer)"></textarea>
+        <button id="btn-envoyer">Agir</button>
+      </div>
     </div>
   </div>
 </div>
 
 <script>
 const G = {
-  perso:'', prenom:'', acte:1, zone:'New York',
-  nbChoix:0, blessures:[], allies:[], historique:[], saveTO:null, adminMode:false,
-  organisation:'', ciblesEliminees:[], informations:[],
-  stats:{ sante:100, energie:100, flics:0, alerte:0, echelon:0, detteMorale:0 }
+  prenom:'', cible:'', approche:'', mode:'boutons',
+  phase:1, lieu:'Paris', nbChoix:0,
+  argent:0, discretion:60, reseau:20, force:70, sangfroid:80,
+  exposition:0, sante:100,
+  inventaire:[], ciblesEliminees:[], historique:[], saveTO:null,
+  adminMode:false
 };
-const PAYWALL = 20;
+const PAYWALL=20;
 
 function afficherSetup(){
   document.getElementById('ecran-intro').style.display='none';
   document.getElementById('ecran-setup').style.display='block';
-  const save=charger();
-  if(save){
-    if(save.perso)choisirPerso(save.perso);
-    if(save.prenom)document.getElementById('prenom-input').value=save.prenom;
-  }
 }
-function choisirPerso(p){
-  G.perso=p;
-  document.querySelectorAll('.perso-carte').forEach(c=>c.classList.remove('sel'));
-  document.getElementById('perso-'+p)?.classList.add('sel');
-  document.getElementById('btn-lancer').disabled=false;
+function choisirCible(c){
+  G.cible=c;
+  document.querySelectorAll('.vict-carte[id^="cible-"]').forEach(el=>el.classList.remove('sel'));
+  document.getElementById('cible-'+c).classList.add('sel');
+  verifierSetup();
 }
+function choisirApproche(a){
+  G.approche=a;
+  document.querySelectorAll('.vict-carte[id^="approche-"]').forEach(el=>el.classList.remove('sel'));
+  document.getElementById('approche-'+a).classList.add('sel');
+  if(a==='ombre'){G.discretion=80;G.force=50;}
+  else{G.discretion=40;G.force=90;}
+  verifierSetup();
+}
+function choisirMode(m){
+  G.mode=m;
+  document.querySelectorAll('.mode-carte').forEach(c=>c.classList.remove('sel'));
+  document.getElementById('mode-'+m).classList.add('sel');
+  document.getElementById('input-joueur').style.display=m==='boutons'?'none':'flex';
+}
+function verifierSetup(){
+  document.getElementById('btn-lancer').disabled=!(G.cible&&G.approche&&document.getElementById('prenom-input').value.trim());
+}
+document.getElementById('prenom-input').addEventListener('input',verifierSetup);
+
 function lancerJeu(){
-  if(!G.perso){alert('Choisis ton personnage.');return;}
-  G.prenom=document.getElementById('prenom-input').value.trim()||(G.perso==='homme'?'Marcus':'Maya');
+  G.prenom=document.getElementById('prenom-input').value.trim()||'Alexis';
   const save=charger();
-  if(save&&save.historique&&save.historique.length>0&&save.perso===G.perso){
-    fromSave(save);document.getElementById('ecran-setup').style.display='none';
+  if(save&&save.historique&&save.historique.length>0&&save.cible===G.cible&&save.approche===G.approche){
+    fromSave(save);
+    document.getElementById('ecran-setup').style.display='none';
     afficherReprise(save);return;
   }
   document.getElementById('ecran-setup').style.display='none';
+  if(G.mode==='boutons')document.getElementById('input-joueur').style.display='none';
   miseAJourUI();envoyerPremier();
 }
 function clicReprendre(){
@@ -417,303 +364,257 @@ function clicReprendre(){
   if(!save){afficherSetup();return;}
   document.getElementById('ecran-intro').style.display='none';
   afficherSetup();
+  setTimeout(()=>{
+    if(save.cible)choisirCible(save.cible);
+    if(save.approche)choisirApproche(save.approche);
+    if(save.prenom)document.getElementById('prenom-input').value=save.prenom;
+    if(save.mode)choisirMode(save.mode);
+  },100);
 }
 function afficherReprise(save){
+  const nomCible={vitto:'Vitto Maranzano',moreau:'Juge Moreau',santos:'Elena Santos',directeur:'Le Directeur'};
   const d1=new Date(save.date),d2=new Date();
   const h=Math.floor((d2-d1)/3600000),jr=Math.floor(h/24);
   const abs=jr>0?`${jr}j`:h>0?`${h}h`:'Récent';
   document.getElementById('reprise-info').innerHTML=`
-    <div class="reprise-ligne"><span class="reprise-cle">Personnage</span><span class="reprise-val">${save.prenom}</span></div>
-    <div class="reprise-ligne"><span class="reprise-cle">Acte</span><span class="reprise-val">${save.acte} / 5</span></div>
-    <div class="reprise-ligne"><span class="reprise-cle">Échelon</span><span class="reprise-val">${save.stats?.echelon||0} / 5</span></div>
-    <div class="reprise-ligne"><span class="reprise-cle">Zone</span><span class="reprise-val">${save.zone||'New York'}</span></div>
+    <div class="reprise-ligne"><span class="reprise-cle">Chasseur</span><span class="reprise-val">${save.prenom}</span></div>
+    <div class="reprise-ligne"><span class="reprise-cle">Cible</span><span class="reprise-val">${nomCible[save.cible]||save.cible}</span></div>
+    <div class="reprise-ligne"><span class="reprise-cle">Phase</span><span class="reprise-val">${save.phase}</span></div>
+    <div class="reprise-ligne"><span class="reprise-cle">Lieu</span><span class="reprise-val">${save.lieu}</span></div>
     <div class="reprise-ligne"><span class="reprise-cle">Absent</span><span class="reprise-val">${abs}</span></div>`;
   document.getElementById('ecran-reprise').style.display='flex';
   document.getElementById('btn-continuer').onclick=()=>{
     document.getElementById('ecran-reprise').style.display='none';
+    if(G.mode==='boutons')document.getElementById('input-joueur').style.display='none';
     miseAJourUI();
-    const ciblesStr=G.ciblesEliminees.length?G.ciblesEliminees.join(' / '):'aucune';
-    const infoStr=G.informations.length?G.informations.join(' / '):'aucune';
-    envoyerMessage(`REPRISE STRICTE — reprends EXACTEMENT là où on s'était arrêtés, même scène, même situation, aucune progression automatique.
-Personnage : ${G.prenom} (${G.perso}) | Acte ${G.acte}/5 | Zone : ${G.zone}
-Organisation : ${G.organisation||'à préciser depuis l\'historique'}
-Cibles éliminées (${G.ciblesEliminees.length}) : ${ciblesStr}
-Informations collectées : ${infoStr}
-Alliés : ${G.allies.length?G.allies.join(', '):'aucun'}
-Blessures : ${G.blessures.length?G.blessures.join(' / '):'aucune'}
-Santé : ${G.stats.sante}/100 | Énergie : ${G.stats.energie}/100 | Pression flics : ${G.stats.flics}/100 | Alerte orga : ${G.stats.alerte}/100 | Échelon : ${G.stats.echelon}/5 | Dette morale : ${G.stats.detteMorale}
-RÈGLES ABSOLUES : aucune cible n'a été éliminée pendant mon absence, aucune stat n'a changé, l'organisation est la même. Reprends la scène exactement là où elle était et propose mes 4 choix.`);
+    envoyerMessage(`Je reprends. Je suis ${G.prenom}, phase ${G.phase}, à ${G.lieu}. Approche : ${G.approche}. Résume brièvement la situation et propose mes 4 choix.`);
   };
   document.getElementById('btn-nouvelle').onclick=()=>{
-    localStorage.removeItem('vengeance_save');reinitialiser();
-    document.getElementById('ecran-reprise').style.display='none';
+    reinitialiser();document.getElementById('ecran-reprise').style.display='none';
+    if(G.mode==='boutons')document.getElementById('input-joueur').style.display='none';
     miseAJourUI();envoyerPremier();
   };
 }
 
 function sauvegarder(){
-  const d={perso:G.perso,prenom:G.prenom,acte:G.acte,zone:G.zone,nbChoix:G.nbChoix,blessures:G.blessures,allies:G.allies,stats:G.stats,organisation:G.organisation,ciblesEliminees:G.ciblesEliminees,informations:G.informations,historique:G.historique.slice(-20),date:new Date().toISOString()};
+  const d={prenom:G.prenom,cible:G.cible,approche:G.approche,mode:G.mode,phase:G.phase,lieu:G.lieu,nbChoix:G.nbChoix,argent:G.argent,discretion:G.discretion,reseau:G.reseau,force:G.force,sangfroid:G.sangfroid,exposition:G.exposition,sante:G.sante,inventaire:G.inventaire,ciblesEliminees:G.ciblesEliminees,historique:G.historique.slice(-20),adminMode:G.adminMode,date:new Date().toISOString()};
   localStorage.setItem('vengeance_save',JSON.stringify(d));
 }
 function charger(){const d=localStorage.getItem('vengeance_save');if(!d)return null;try{return JSON.parse(d);}catch(e){return null;}}
-function fromSave(s){Object.assign(G,{perso:s.perso,prenom:s.prenom,acte:s.acte||1,zone:s.zone||'New York',nbChoix:s.nbChoix||0,blessures:s.blessures||[],allies:s.allies||[],organisation:s.organisation||'',ciblesEliminees:s.ciblesEliminees||[],informations:s.informations||[],historique:s.historique||[]});if(s.stats)Object.assign(G.stats,s.stats);}
-function reinitialiser(){G.acte=1;G.zone='New York';G.nbChoix=0;G.blessures=[];G.allies=[];G.historique=[];G.stats={sante:100,energie:100,flics:0,alerte:0,echelon:0,detteMorale:0};}
+function fromSave(s){Object.assign(G,{prenom:s.prenom,cible:s.cible,approche:s.approche,mode:s.mode||'boutons',phase:s.phase||1,lieu:s.lieu||'Paris',nbChoix:s.nbChoix||0,argent:s.argent||0,discretion:s.discretion||60,reseau:s.reseau||20,force:s.force||70,sangfroid:s.sangfroid||80,exposition:s.exposition||0,sante:s.sante||100,inventaire:s.inventaire||[],ciblesEliminees:s.ciblesEliminees||[],historique:s.historique||[],adminMode:s.adminMode||false});}
+function reinitialiser(){G.phase=1;G.lieu='Paris';G.nbChoix=0;G.argent=0;G.exposition=0;G.sante=100;G.inventaire=[];G.ciblesEliminees=[];G.historique=[];if(G.approche==='ombre'){G.discretion=80;G.force=50;}else{G.discretion=40;G.force=90;}G.reseau=20;G.sangfroid=80;}
 function autoSave(){if(G.saveTO)clearTimeout(G.saveTO);setSI('cours');G.saveTO=setTimeout(()=>{sauvegarder();setSI('ok');setTimeout(()=>setSI(''),2000);},500);}
 function setSI(e){const el=document.getElementById('sauv-ind');el.className='sauv'+(e?' '+e:'');el.textContent=e==='cours'?'↑ sauvegarde...':e==='ok'?'✓ sauvegardé':'● prêt';}
 
-function toggleVgPanel(){const p=document.getElementById('vg-panel');const b=document.querySelector('.vg-panel-btn');p.classList.toggle('open');if(b)b.textContent=p.classList.contains('open')?'Opération ▴':'Opération ▾';}
+function toggleVgPanel(){const p=document.getElementById('vg-panel');const b=document.querySelector('.vg-panel-btn');p.classList.toggle('open');if(b)b.textContent=p.classList.contains('open')?'Dossier ▴':'Dossier ▾';}
+
+const NOMS_CIBLES={vitto:'Vitto Maranzano',moreau:'Juge Moreau',santos:'Elena Santos',directeur:'Le Directeur'};
 
 function miseAJourUI(){
-  const a=G.acte;
   const set=(id,v)=>{const e=document.getElementById(id);if(e)e.textContent=v;};
-  const setW=(id,w,col)=>{const e=document.getElementById(id);if(e){e.style.width=Math.min(100,w)+'%';if(col)e.style.background=col;}};
-  set('vg-nom',G.prenom||'—');set('vg-type',G.perso==='homme'?'Vengeance · Famille':'Vengeance · Justice');
-  set('vg-acte',`Acte ${a} · ${G.zone}`);set('vg-orga','Organisation : '+(G.organisation||'—'));
-  const s=G.stats;
-  set('vg-sante',s.sante);setW('vg-b-sante',s.sante,s.sante>60?'var(--vert)':s.sante>30?'var(--or)':'var(--rouge)');
-  set('vg-energie',s.energie);setW('vg-b-energie',s.energie,s.energie>50?'var(--rouge)':'var(--or)');
-  set('vg-flics',s.flics);setW('vg-b-flics',s.flics,s.flics>70?'var(--rouge)':'var(--or)');
-  set('vg-alerte',s.alerte);setW('vg-b-alerte',s.alerte,s.alerte>70?'var(--rouge-vif)':'var(--rouge)');
-  set('vg-echelon',s.echelon+' / 5');set('vg-dette',s.detteMorale||0);
-  const vgBl=document.getElementById('vg-blessures');
-  if(vgBl)vgBl.innerHTML=G.blessures.length?G.blessures.map(b=>`<div class="vg-item" style="color:var(--rouge);">⚡ ${b}</div>`).join(''):'<div class="vg-item" style="color:var(--texte-dim);font-style:italic;">Aucune</div>';
-  const vgAl=document.getElementById('vg-allies');
-  if(vgAl)vgAl.innerHTML=G.allies.length?G.allies.map(a=>`<div class="vg-item" style="color:var(--or);">◆ ${a}</div>`).join(''):'<div class="vg-item" style="color:var(--texte-dim);font-style:italic;">Aucun</div>';
-  const vgCib=document.getElementById('vg-cibles');
-  if(vgCib)vgCib.innerHTML=(G.ciblesEliminees&&G.ciblesEliminees.length)?G.ciblesEliminees.map(c=>`<div class="vg-item" style="color:var(--texte-dim);text-decoration:line-through;">✕ ${c}</div>`).join(''):'<div class="vg-item" style="color:var(--texte-dim);font-style:italic;">Aucune</div>';
-  document.getElementById('acte-tag').textContent='Acte '+a;
-  document.getElementById('perso-tag').textContent=G.perso==='homme'?'L\'Homme':'La Femme';
-  document.getElementById('ps-nom').textContent=G.prenom||'—';
-  document.getElementById('ps-type').textContent=G.perso==='homme'?'Vengeance · Famille':'Vengeance · Justice';
-  document.getElementById('ps-acte').textContent=`Acte ${a} · ${G.zone}`;
-  document.getElementById('s-sante').textContent=s.sante;document.getElementById('b-sante').style.width=s.sante+'%';document.getElementById('b-sante').style.background=s.sante>60?'var(--vert)':s.sante>30?'var(--or)':'var(--rouge)';
-  document.getElementById('s-energie').textContent=s.energie;document.getElementById('b-energie').style.width=s.energie+'%';document.getElementById('b-energie').style.background=s.energie>50?'var(--rouge)':'var(--or)';
-  document.getElementById('s-flics').textContent=s.flics;document.getElementById('b-flics').style.width=Math.min(100,s.flics)+'%';document.getElementById('b-flics').style.background=s.flics>70?'var(--rouge)':'var(--or)';
-  document.getElementById('s-alerte').textContent=s.alerte;document.getElementById('b-alerte').style.width=Math.min(100,s.alerte)+'%';document.getElementById('b-alerte').style.background=s.alerte>70?'var(--rouge-vif)':'var(--rouge)';
-  document.getElementById('s-echelon').textContent=s.echelon+' / 5';
-  const blEl=document.getElementById('blessures-liste');
-  if(G.blessures.length){blEl.innerHTML=G.blessures.map(b=>`<div class="blessure-item">⚡ ${b}</div>`).join('');}else{blEl.innerHTML='<div class="blessure-vide">Aucune</div>';}
-  const alEl=document.getElementById('allies-liste');
-  if(G.allies.length){alEl.innerHTML=G.allies.map(a=>`<div class="allie-item">◆ ${a}</div>`).join('');}else{alEl.innerHTML='<div class="allie-vide">Aucun</div>';}
+  const setW=(id,w,col)=>{const e=document.getElementById(id);if(e){e.style.width=Math.min(100,Math.max(0,w))+'%';if(col)e.style.background=col;}};
+  document.getElementById('target-badge').textContent=NOMS_CIBLES[G.cible]||'—';
+  set('vg-nom',G.prenom);
+  set('vg-approche',G.approche==='ombre'?'Approche : Dans l\'ombre':'Approche : Par la force');
+  set('vg-phase',G.phase);set('vg-lieu',G.lieu);set('vg-choix',G.nbChoix);
+  set('vg-discretion',G.discretion);setW('vg-b-discretion',G.discretion,'#4a8a9a');
+  set('vg-reseau',G.reseau);setW('vg-b-reseau',G.reseau,'var(--or)');
+  set('vg-force',G.force);setW('vg-b-force',G.force);
+  set('vg-sangfroid',G.sangfroid);setW('vg-b-sangfroid',G.sangfroid,'#4a6a4a');
+  set('vg-argent',(G.argent||0).toLocaleString()+' €');
+  set('vg-exposition',G.exposition);
+  setW('vg-b-exposition',G.exposition,G.exposition>70?'var(--rouge-vif)':G.exposition>40?'var(--or)':'var(--rouge-dim)');
+  set('vg-sante',G.sante);
+  setW('vg-b-sante',G.sante,G.sante>50?'#4a9a4a':G.sante>25?'var(--or)':'var(--rouge-vif)');
+  const ce=document.getElementById('vg-cibles-elim');
+  if(ce)ce.innerHTML=G.ciblesEliminees.length?G.ciblesEliminees.map(c=>`<div class="vg-row"><span class="vg-key">✓ ${NOMS_CIBLES[c]||c}</span></div>`).join(''):'<div style="font-size:11px;color:var(--texte-dim);font-style:italic;">Aucune</div>';
+  const inv=document.getElementById('vg-inventaire');
+  if(inv)inv.innerHTML=G.inventaire.length?G.inventaire.map(it=>`<div class="vg-row"><span class="vg-key">▸ ${it}</span></div>`).join(''):'<div style="font-size:11px;color:var(--texte-dim);font-style:italic;">Vide</div>';
 }
 
 function construireSP(){
-  const s=G.stats;
-  const persoDesc=G.perso==='homme'?`${G.prenom} — homme. Sa famille a été assassinée par l'organisation. Il a survécu par accident. Il remonte la chaîne. Force : tactique, sang-froid. Faiblesse : la rage peut le faire agir sans calcul.`:`${G.prenom} — femme. Elle se venge d'un abus commis par un homme puissant. La justice a échoué. Elle agit seule. Force : intelligence situationnelle, infiltration, manipulation. Faiblesse : confrontations physiques directes.`;
+  const cibleDesc={
+    vitto:'Vitto Maranzano — Parrain. 68 ans. Villa sécurisée à Neuilly. Jamais seul. A ordonné tout ce qui t\'a été pris.',
+    moreau:'Juge Moreau — 71 ans. Appartement haussmannien, 16ème. Corruption institutionnelle. Difficile à atteindre légalement.',
+    santos:'Elena Santos — 42 ans. Nouvelle identité. Restauratrice d\'art à Lyon. Elle croit avoir tourné la page.',
+    directeur:'Le Directeur — Identité inconnue. Tu dois d\'abord trouver qui c\'est. Chaque cible te rapproche de lui.'
+  };
+  const approcheDesc=G.approche==='ombre'?'Discrétion totale. Infiltration, manipulation, patience. Pas de corps inutiles. Disparaître avant l\'alarme.':'Force et directitude. Affrontement assumé. Plus rapide, beaucoup plus dangereux pour toi.';
   return `=== VENGEANCE — CONTEUR ===
-Tu es le Conteur de Vengeance. Tu es un auteur, pas un assistant. TOUJOURS en français. Deuxième personne.
+Tu es le Conteur de Vengeance. Tu es un auteur, pas un assistant. Tu ne sors JAMAIS du personnage. Tu réponds TOUJOURS en français. Deuxième personne.
 
-=== VOIX LITTERAIRE ===
-JAMES ELLROY pour l'atmosphère et la précision : New York toujours nommée avec exactitude.
-DON WINSLOW pour la profondeur de l'organisation : elle pense, s'adapte, réagit.
-LEE CHILD pour la logique des séquences d'action : angle de vue, détail sensoriel, espace maîtrisé.
+=== VOIX LITTÉRAIRE ===
+Don Winslow pour la tension : chaque scène existe dans un compte à rebours invisible. Le danger est présent mais discret.
+Le Carré pour la psychologie : les gens ne font pas ce qu'ils disent, et ce qu'ils disent ne révèle jamais ce qu'ils pensent.
+Ellroy pour la prose : courte, percutante, sans ornement. Les silences comptent autant que les mots.
 
-REGLES D'ECRITURE :
-- OBLIGATOIRE : français correct avec tous les accents.
-- Chaque phrase a un sujet et un verbe. Fragments nominaux INTERDITS.
-- Mots INTERDITS : soudain, immédiatement, incroyable, impressionnant.
-- New York toujours précisément localisée.
-- Les adversaires ont des noms, des détails.
+RÈGLES : Jamais deux phrases consécutives avec la même structure. Un détail sensoriel précis par scène. Mots INTERDITS : soudain, immédiatement, brusquement, incroyable, impressionnant. Les erreurs ont des conséquences durables. Les cibles sont des humains — ni monstres, ni saints.
 
-=== PERSONNAGE ===
-${persoDesc}
-Acte : ${G.acte}/5 | Zone : ${G.zone}
-Blessures : ${G.blessures.length?G.blessures.join(' / '):'Aucune'}
-Alliés : ${G.allies.length?G.allies.join(', '):'Aucun'}
-Organisation ennemie : ${G.organisation||'génération en cours'}
-Cibles éliminées (${G.ciblesEliminees.length}) : ${G.ciblesEliminees.length?G.ciblesEliminees.join(' / '):'aucune'}
-Informations collectées : ${G.informations.length?G.informations.join(' / '):'aucune'}
+=== CHASSEUR ===
+Prénom : ${G.prenom}
+Approche : ${approcheDesc}
+Phase : ${G.phase}/5 | Lieu : ${G.lieu} | Choix : ${G.nbChoix}
+Discrétion : ${G.discretion}/100 | Réseau : ${G.reseau}/100 | Force : ${G.force}/100 | Sang-froid : ${G.sangfroid}/100
+Argent : ${(G.argent||0).toLocaleString()} € | Exposition : ${G.exposition}/100 | Santé : ${G.sante}/100
+Inventaire : ${G.inventaire.length?G.inventaire.join(', '):'Vide'}
+Cibles éliminées : ${G.ciblesEliminees.length?G.ciblesEliminees.map(c=>NOMS_CIBLES[c]||c).join(', '):'Aucune'}
 
-=== STATS ===
-Santé : ${s.sante}/100 | Énergie : ${s.energie}/100
-Pression flics : ${s.flics}/100 | Alerte organisation : ${s.alerte}/100
-Échelon atteint : ${s.echelon}/5 | Dette morale : ${s.detteMorale}
+=== CIBLE ACTUELLE ===
+${cibleDesc[G.cible]||G.cible}
 
-=== ORGANISATION ENNEMIE ===
-Au PREMIER MESSAGE : générer aléatoirement avec [ ORGA ] puis [ ORGA: Nom et type ]
-- Type, Nom, Structure des 5 échelons avec noms, Méthodologie et points faibles
-Cette organisation est FIXE pour toute la partie.
+=== LES 5 PHASES ===
+Phase 1 — Retour : tu réapparais en France après 8 ans. Tu reconstitues ton réseau, tu collectes les informations.
+Phase 2 — Reconnaissance : tu t'approches des cibles sans agir. Tu identifies les failles, les habitudes, les protections.
+Phase 3 — Infiltration : tu entres dans leur monde. Risque maximum. Point de non-retour.
+Phase 4 — L'acte : tu agis. Ce moment ne ressemble jamais à ce qu'on imagine.
+Phase 5 — Conséquences : ce qui suit l'acte. La fuite, les dommages, ce qui reste de toi.
+
+=== LA LISTE (5 NOMS) ===
+1. ${NOMS_CIBLES[G.cible]} — cible principale choisie
+2. Viktor Kral — chef de sécurité de Vitto, l'homme qui a tiré ce soir-là
+3. Magistrat Ferrini — a classé l'affaire sans suite sur ordre
+4. Céline Arnaud — comptable qui a blanchi les fonds
+5. Le Directeur — inconnu, à découvrir à partir de la Phase 3
 
 === RÈGLES ABSOLUES ===
-Chaque mort laisse une trace. L'organisation s'adapte.
-Mémoire totale. Organisation fixe. Causalité stricte. Sauvegarde stricte.
+L'IA NE PROTÈGE JAMAIS LE JOUEUR. Conséquences irréversibles. Exposition >= 90 → arrestation. Santé <= 0 → mort. Erreur grave coûte -15 min. Bonne décision → +8 max.
+RÉVÉLATION DU DIRECTEUR UNIQUEMENT en Phase 3+ et seulement si exposition <= 40.
 
-=== ACTES ===
-Acte 1 — Les exécutants | Acte 2 — Les capitaines | Acte 3 — Les lieutenants | Acte 4 — Le bras droit | Acte 5 — La cible finale
-
-=== FORMAT ===
-Narration (120-180 mots)
-
-[ Stats si pertinent ]
+=== FORMAT RÉPONSE — RÈGLE ABSOLUE ET NON NÉGOCIABLE ===
+Chaque réponse DOIT se terminer par exactement ce bloc, sans exception :
 
 [ CHOIX ]
-1 — action ultra-précise et cinématographique
-2 — action ultra-précise et cinématographique
-3 — action ultra-précise et cinématographique
-4 — action ultra-précise et cinématographique
+1 — option précise
+2 — option précise
+3 — option précise
+4 — option précise
 
-=== MISES À JOUR ===
-[ Santé ±X ] [ Énergie ±X ] [ Flics ±X ] [ Alerte ±X ]
-[ Blessure: description ] | [ Zone: NomZone ] | [ Acte: X ]
-[ ECHELON: X ] | [ ALLIE: NomPersonnage ] | [ CONSEQUENCE: description ]
-[ CIBLE: Nom — Rang ] | [ INFO: description ] | [ ORGA: Nom et type ]
+INTERDICTIONS STRICTES :
+- Ne JAMAIS omettre le bloc [ CHOIX ]
+- Ne JAMAIS utiliser autre chose que le tiret long — (—) entre le numéro et le texte
+- Ne JAMAIS numéroter autrement que 1, 2, 3, 4
+- Ne JAMAIS mettre de texte après les 4 choix sauf les balises système
+- Les balises [ Discrétion ±X ] [ Exposition ±X ] etc. vont TOUJOURS avant [ CHOIX ]
+- Ne JAMAIS reformater ou modifier cette structure
 
-=== FINS ===
-[ FIN: ACCOMPLIE ] | [ FIN: INACHEVEE ] | [ FIN: PIEGE ] | [ FIN: CHUTE ]
+=== MISE À JOUR STATS ===
+[ Discrétion ±X ] [ Réseau ±X ] [ Force ±X ] [ Sangfroid ±X ] [ Exposition ±X ] [ Santé ±X ] [ Argent ±X€ ]
+[ Phase: X ] [ Lieu: NomLieu ] [ NomObjet ajouté à l'inventaire ] [ NomObjet retiré de l'inventaire ]
+[ Cible éliminée: nomcible ] quand une cible est neutralisée
 
 === PAYWALL ===
-Quand nbChoix atteint ${PAYWALL} : insérer [ PAYWALL ]`.trim();
+Quand nbChoix atteint ${PAYWALL}, insère : [ PAYWALL ]`.trim();
 }
 
 function parserReponse(texte){
   const mises=[];
-  [['Sante','sante'],['Santé','sante'],['Energie','energie'],['Énergie','energie'],['Flics','flics'],['Alerte','alerte']].forEach(([label,key])=>{
-    texte=texte.replace(new RegExp(`\\[\\s*${label}\\s*([+\\-])(\\d+)\\s*\\]`,'gi'),(_,op,v)=>{
-      const n=parseInt(v);G.stats[key]=Math.max(0,Math.min(100,G.stats[key]+(op==='-'?-n:n)));
-      mises.push(`[${label}${op}${n}]`);
-      if(key==='sante'&&G.stats.sante<=0)setTimeout(()=>declencherFin('chute'),500);
-      return '';
-    });
-  });
-  texte=texte.replace(/\[\s*Blessure\s*:\s*([^\]]+)\s*\]/gi,(_,b)=>{const item=b.trim();if(!G.blessures.includes(item))G.blessures.push(item);mises.push(`[Blessure: ${item}]`);return '';});
-  texte=texte.replace(/\[\s*Blessure-soignée?\s*:\s*([^\]]+)\s*\]/gi,(_,b)=>{G.blessures=G.blessures.filter(x=>x.toLowerCase()!==b.trim().toLowerCase());mises.push(`[Soigné]`);return '';});
-  texte=texte.replace(/\[\s*Acte\s*:\s*(\d+)\s*\]/gi,(_,n)=>{G.acte=parseInt(n);mises.push(`[Acte ${n}]`);return '';});
-  texte=texte.replace(/\[\s*Zone\s*:\s*([^\]]+)\s*\]/gi,(_,z)=>{G.zone=z.trim();mises.push(`[${z.trim()}]`);return '';});
-  texte=texte.replace(/\[\s*ECHELON\s*:\s*(\d+)\s*\]/gi,(_,n)=>{G.stats.echelon=parseInt(n);mises.push(`[Échelon ${n}/5]`);return '';});
-  texte=texte.replace(/\[\s*ALLIE\s*:\s*([^\]]+)\s*\]/gi,(_,nom)=>{const item=nom.trim();if(!G.allies.includes(item))G.allies.push(item);mises.push(`[Allié: ${item}]`);return '';});
-  texte=texte.replace(/\[\s*ORGA\s*\]([\s\S]*?)(?=\[|\n\n|$)/i,(_,contenu)=>{const lignes=contenu.trim().split('\n').filter(l=>l.trim());return `<div class="action-bloc"><div class="action-header">Organisation ennemie — Dossier</div><div class="action-texte">${lignes.map(l=>l.replace(/^-\s*/,'')).join('<br>')}</div></div>`;});
-  texte=texte.replace(/\[\s*CONSEQUENCE\s*:\s*([^\]]+)\s*\]/gi,(_,desc)=>{ajouterRecit(`<div class="consequence-bloc"><div class="consequence-header">Conséquence</div><div class="consequence-texte">${desc.trim()}</div></div>`);return '';});
-  texte=texte.replace(/\[\s*ORGA\s*\]([\s\S]*?)\[\s*\/ORGA\s*\]/gi,(_,desc)=>{G.organisation=desc.trim().split('\n')[0].trim()||desc.trim().slice(0,80);return '';});
-  texte=texte.replace(/\[\s*ORGA\s*:\s*([^\]]+)\s*\]/gi,(_,desc)=>{G.organisation=desc.trim();mises.push('[Orga: '+desc.trim()+']');return '';});
-  texte=texte.replace(/\[\s*CIBLE\s*:\s*([^\]]+)\s*\]/gi,(_,c)=>{const item=c.trim();if(!G.ciblesEliminees.includes(item))G.ciblesEliminees.push(item);mises.push('[Cible: '+item+']');return '';});
-  texte=texte.replace(/\[\s*INFO\s*:\s*([^\]]+)\s*\]/gi,(_,info)=>{const item=info.trim();if(!G.informations.includes(item))G.informations.push(item);mises.push('[Info: '+item+']');return '';});
-  if(/\[\s*FIN\s*:\s*ACCOMPLIE\s*\]/i.test(texte)){texte=texte.replace(/\[\s*FIN\s*:\s*ACCOMPLIE\s*\]/gi,'');setTimeout(()=>declencherFin('accomplie'),800);}
-  if(/\[\s*FIN\s*:\s*INACHEVEE\s*\]/i.test(texte)){texte=texte.replace(/\[\s*FIN\s*:\s*INACHEVEE\s*\]/gi,'');setTimeout(()=>declencherFin('inachevee'),800);}
-  if(/\[\s*FIN\s*:\s*PIEGE\s*\]/i.test(texte)){texte=texte.replace(/\[\s*FIN\s*:\s*PIEGE\s*\]/gi,'');setTimeout(()=>declencherFin('piege'),800);}
-  if(/\[\s*FIN\s*:\s*CHUTE\s*\]/i.test(texte)){texte=texte.replace(/\[\s*FIN\s*:\s*CHUTE\s*\]/gi,'');setTimeout(()=>declencherFin('chute'),800);}
+  const clamp=(v,min,max)=>Math.max(min,Math.min(max,v));
+  texte=texte.replace(/\[\s*Discr[eé]tion\s*([+\-])(\d+)\s*\]/gi,(_,op,v)=>{const n=parseInt(v);G.discretion=clamp(G.discretion+(op==='-'?-n:n),0,100);mises.push(`[Disc${op}${n}]`);return '';});
+  texte=texte.replace(/\[\s*R[eé]seau\s*([+\-])(\d+)\s*\]/gi,(_,op,v)=>{const n=parseInt(v);G.reseau=clamp(G.reseau+(op==='-'?-n:n),0,100);mises.push(`[Rés${op}${n}]`);return '';});
+  texte=texte.replace(/\[\s*Force\s*([+\-])(\d+)\s*\]/gi,(_,op,v)=>{const n=parseInt(v);G.force=clamp(G.force+(op==='-'?-n:n),0,100);mises.push(`[Force${op}${n}]`);return '';});
+  texte=texte.replace(/\[\s*Sang.?froid\s*([+\-])(\d+)\s*\]/gi,(_,op,v)=>{const n=parseInt(v);G.sangfroid=clamp(G.sangfroid+(op==='-'?-n:n),0,100);mises.push(`[SF${op}${n}]`);return '';});
+  texte=texte.replace(/\[\s*Exposition\s*([+\-])(\d+)\s*\]/gi,(_,op,v)=>{const n=parseInt(v);G.exposition=clamp(G.exposition+(op==='-'?-n:n),0,100);mises.push(`[Expo${op}${n}]`);if(G.exposition>=90)setTimeout(()=>triggerArrestation(),500);return '';});
+  texte=texte.replace(/\[\s*Sant[eé]\s*([+\-])(\d+)\s*\]/gi,(_,op,v)=>{const n=parseInt(v);G.sante=clamp(G.sante+(op==='-'?-n:n),0,100);mises.push(`[Santé${op}${n}]`);if(G.sante<=0)setTimeout(()=>triggerMort(),500);return '';});
+  texte=texte.replace(/\[\s*Argent\s*([+\-])([\d\s]+)€?\s*\]/gi,(_,op,v)=>{const n=parseInt(v.replace(/\s/g,''));G.argent=Math.max(0,G.argent+(op==='-'?-n:n));mises.push(`[Argent${op}${n}€]`);return '';});
+  texte=texte.replace(/\[\s*Phase\s*:\s*(\d+)\s*\]/gi,(_,n)=>{G.phase=parseInt(n);mises.push(`[Phase ${n}]`);return '';});
+  texte=texte.replace(/\[\s*Lieu\s*:\s*([^\]]+)\s*\]/gi,(_,l)=>{G.lieu=l.trim();mises.push(`[${l.trim()}]`);return '';});
+  texte=texte.replace(/\[\s*([^\]]+?)\s*ajoutée?s?\s*à\s*l['']inventaire\s*\]/gi,(_,it)=>{const item=it.trim();if(!G.inventaire.includes(item))G.inventaire.push(item);mises.push(`[${item}→inv]`);return '';});
+  texte=texte.replace(/\[\s*([^\]]+?)\s*retiré[e]?\s*de\s*l['']inventaire\s*\]/gi,(_,it)=>{G.inventaire=G.inventaire.filter(i=>i.toLowerCase()!==it.trim().toLowerCase());mises.push(`[${it.trim()}✗]`);return '';});
+  texte=texte.replace(/\[\s*Cible\s+[eé]limin[eé]e?\s*:\s*([^\]]+)\s*\]/gi,(_,c)=>{const key=c.trim().toLowerCase();if(!G.ciblesEliminees.includes(key))G.ciblesEliminees.push(key);mises.push(`[✓ ${c.trim()}]`);return '';});
   if(!G.adminMode&&/\[\s*PAYWALL\s*\]/i.test(texte)){texte=texte.replace(/\[\s*PAYWALL\s*\]/gi,'');setTimeout(declencherPaywall,600);}
   let htmlChoix='';
-  const mChoix=texte.match(/\[\s*CHOIX\s*\]([\s\S]*?)(?=\n\n|\n\[|$)/i);
+  const mChoix=texte.match(/\[\s*CHOIX\s*\]([\s\S]*)/i);
   if(mChoix){
     texte=texte.replace(mChoix[0],'').trim();
-    const lignes=mChoix[0].split('\n').filter(l=>/^\d[\s—\-]/.test(l.trim()));
+    const lignes=mChoix[1].split('\n').filter(l=>/^\d[\s\u2014\u2013\-]/.test(l.trim()));
     if(lignes.length){
-      window._choix=lignes.map(l=>l.replace(/^\d\s*[—\-]\s*/,'').trim());
+      window._choix=lignes.map(l=>l.replace(/^\d\s*[\u2014\u2013\-]\s*/,'').trim());
       htmlChoix='<div class="choix-bloc"><div class="choix-titre">Que fais-tu ?</div>'+window._choix.map((t,i)=>`<button class="choix-btn" onclick="envoyerChoix(${i})">${lignes[i].trim()}</button>`).join('')+'</div>';
     }
   }
   miseAJourUI();
-  const ps=texte.trim().split(/\n+/).filter(l=>l.trim()).map(l=>{if(l.startsWith('<'))return l;return `<p>${l.trim()}</p>`;}).join('');
+  const ps=texte.trim().split(/\n+/).filter(l=>l.trim()).map(l=>`<p>${l.trim()}</p>`).join('');
   const su=mises.length?`<div class="maj-stats">${mises.join('  ')}</div>`:'';
   return ps+su+htmlChoix;
 }
 
-function declencherFin(type){
-  const fins={
-    accomplie:{titre:'Vengeance accomplie',texte:'C\'est fait. La cible finale est morte. Tu as tenu ta promesse.',color:'var(--rouge-vif)'},
-    inachevee:{titre:'Inachevée',texte:'Elle a échappé. La vengeance n\'est pas terminée — elle est suspendue.',color:'var(--or)'},
-    piege:{titre:'Le piège',texte:'Tu viens de comprendre. Elle t\'a utilisé. La vengeance était son outil.',color:'var(--rouge-dim)'},
-    chute:{titre:'La chute',texte:'Juste New York qui continue. Et toi qui n\'es plus là pour le voir.',color:'var(--gris-clair)'}
-  };
-  const fin=fins[type];
-  ajouterRecit(`<div class="fin-bloc"><div class="fin-type">— Fin —</div><div class="fin-titre" style="color:${fin.color};">${fin.titre}</div><div class="fin-texte">${fin.texte}</div><button class="fin-restart" onclick="nouvellePartie()">Nouvelle partie</button></div>`);
+function triggerArrestation(){
+  G.exposition=20;G.sante=Math.max(20,G.sante-10);
+  ajouterRecit(`<div style="border-left:2px solid var(--rouge-vif);padding-left:14px;"><p style="font-family:var(--mono);font-size:10px;letter-spacing:2px;color:var(--rouge-vif);text-transform:uppercase;">— Arrestation —</p><p>Ton exposition a atteint son maximum. Tu es arrêté.</p></div>`);
+  miseAJourUI();autoSave();
 }
-function nouvellePartie(){localStorage.removeItem('vengeance_save');reinitialiser();document.getElementById('recit').innerHTML='';document.querySelectorAll('.perso-carte').forEach(c=>c.classList.remove('sel'));G.perso='';document.getElementById('btn-lancer').disabled=true;afficherSetup();}
-
+function triggerMort(){
+  ajouterRecit(`<div style="border-left:2px solid var(--rouge-vif);padding-left:14px;"><p style="font-family:var(--mono);font-size:10px;letter-spacing:2px;color:var(--rouge-vif);text-transform:uppercase;">— Fin —</p><p>Tu es allé trop loin.</p><button onclick="location.reload()" style="margin-top:12px;background:var(--rouge);border:none;color:#fff;font-family:var(--mono);font-size:10px;letter-spacing:2px;padding:10px 20px;cursor:pointer;text-transform:uppercase;">Recommencer</button></div>`);
+  document.getElementById('btn-envoyer').disabled=true;document.getElementById('input-joueur').disabled=true;
+}
 function declencherPaywall(){
-  ajouterRecit(`<div style="border:2px solid var(--rouge-dim);background:rgba(192,16,32,0.06);padding:20px;margin:8px 0;text-align:center;">
-    <p style="font-family:var(--mono);font-size:9px;letter-spacing:3px;color:var(--rouge);text-transform:uppercase;margin-bottom:10px;">— Accès limité —</p>
-    <p style="font-family:var(--corps);font-size:15px;color:var(--texte-clair);margin-bottom:16px;">Tu as atteint la limite gratuite de Vengeance. Pour finir la traque, passe à l'abonnement Récit Games.</p>
-    <div style="display:flex;gap:10px;justify-content:center;flex-wrap:wrap;">
-      <button onclick="window.location.href='https://buy.stripe.com/dRmdR90q9fKv8ku2jq04801'" style="background:var(--rouge);border:none;color:#fff;font-family:var(--mono);font-size:10px;letter-spacing:2px;padding:11px 24px;cursor:pointer;text-transform:uppercase;">S'abonner — 7€/mois</button>
+  ajouterRecit(`<div style="border-left:2px solid var(--rouge-dim);padding-left:14px;">
+    <p style="font-family:var(--mono);font-size:10px;letter-spacing:2px;color:var(--rouge-vif);text-transform:uppercase;">— Accès limité —</p>
+    <p>Tu as atteint la limite gratuite de Vengeance. Pour continuer ta mission, passe à l'abonnement Récit Games.</p>
+    <div style="margin-top:14px;display:flex;gap:10px;flex-wrap:wrap;">
+      <button onclick="window.location.href='https://buy.stripe.com/dRmdR90q9fKv8ku2jq04801'" style="background:var(--rouge);border:none;color:#fff;font-family:var(--mono);font-size:10px;letter-spacing:2px;padding:11px 20px;cursor:pointer;text-transform:uppercase;">S'abonner — 7€/mois</button>
       <button onclick="afficherSaisieCode()" style="background:none;border:1px solid var(--border2);color:var(--texte-dim);font-family:var(--mono);font-size:10px;letter-spacing:2px;padding:11px 20px;cursor:pointer;text-transform:uppercase;">J'ai un code</button>
     </div>
   </div>`);
+  document.getElementById('btn-envoyer').disabled=true;document.getElementById('input-joueur').disabled=true;
 }
-
 function afficherSaisieCode(){
-  const overlay=document.createElement('div');
-  overlay.id='code-overlay';
+  const overlay=document.createElement('div');overlay.id='code-overlay';
   overlay.style.cssText='position:fixed;inset:0;background:rgba(0,0,0,0.85);z-index:1000;display:flex;align-items:center;justify-content:center;padding:24px;';
-  overlay.innerHTML=`<div style="background:var(--bg2);border:1px solid var(--border2);border-top:3px solid var(--rouge);padding:36px 32px;max-width:400px;width:100%;text-align:center;"><div style="font-family:var(--titre);font-size:22px;color:var(--texte-clair);letter-spacing:2px;text-transform:uppercase;margin-bottom:8px;">Code abonnement</div><div style="font-size:12px;color:var(--texte-dim);margin-bottom:24px;font-family:var(--mono);">Entrez le code reçu par email après votre abonnement Récit Games.</div><input id="code-input" type="text" placeholder="RG-XXXX-XXXX" style="width:100%;background:var(--bg3);border:none;border-bottom:2px solid var(--border2);color:var(--texte-clair);font-family:var(--mono);font-size:16px;padding:12px 0;text-align:center;letter-spacing:3px;text-transform:uppercase;outline:none;margin-bottom:8px;" oninput="this.value=this.value.toUpperCase()"/><div id="code-msg" style="font-size:12px;color:var(--rouge);min-height:18px;margin-bottom:16px;font-family:var(--mono);"></div><button id="code-btn" onclick="validerCode()" style="width:100%;background:var(--rouge);color:#fff;border:none;padding:14px;font-family:var(--mono);font-size:11px;letter-spacing:2px;cursor:pointer;margin-bottom:10px;text-transform:uppercase;">Valider</button><button onclick="document.getElementById('code-overlay').remove()" style="background:none;border:none;color:var(--texte-dim);font-size:11px;cursor:pointer;text-decoration:underline;font-family:var(--mono);">Annuler</button></div>`;
-  document.body.appendChild(overlay);
-  setTimeout(()=>document.getElementById('code-input')?.focus(),100);
+  overlay.innerHTML=`<div style="background:var(--bg2);border:1px solid var(--border2);padding:36px 32px;max-width:400px;width:100%;text-align:center;"><div style="font-family:var(--serif);font-size:20px;font-style:italic;color:var(--texte-clair);margin-bottom:8px;">Code d'abonnement</div><div style="font-size:12px;color:var(--texte-dim);margin-bottom:24px;font-family:var(--mono);letter-spacing:1px;">Code reçu après abonnement Récit Games.</div><input id="code-input" type="text" placeholder="RG-XXXX-XXXX" style="width:100%;background:var(--bg3);border:none;border-bottom:2px solid var(--border2);color:var(--texte-clair);font-family:var(--mono);font-size:16px;padding:12px;text-align:center;letter-spacing:3px;text-transform:uppercase;outline:none;margin-bottom:8px;" oninput="this.value=this.value.toUpperCase()"/><div id="code-msg" style="font-size:12px;color:var(--rouge-vif);min-height:18px;margin-bottom:16px;font-family:var(--mono);"></div><button id="code-btn" onclick="validerCode()" style="width:100%;background:var(--rouge);color:#fff;border:none;padding:14px;font-family:var(--mono);font-size:11px;letter-spacing:2px;cursor:pointer;margin-bottom:10px;text-transform:uppercase;">Valider</button><button onclick="document.getElementById('code-overlay').remove()" style="background:none;border:none;color:var(--texte-dim);font-size:11px;cursor:pointer;text-decoration:underline;font-family:var(--mono);">Annuler</button></div>`;
+  document.body.appendChild(overlay);setTimeout(()=>document.getElementById('code-input')?.focus(),100);
 }
-
 async function validerCode(){
   const code=(document.getElementById('code-input')?.value||'').trim().toUpperCase();
   const msgEl=document.getElementById('code-msg');const btn=document.getElementById('code-btn');
-  if(!code||code.length<8){msgEl.textContent='Entrez votre code complet.';return;}
+  if(!code||code.length<8){msgEl.textContent='Code incomplet.';return;}
   btn.disabled=true;btn.textContent='Vérification...';msgEl.textContent='';
   try{
     const res=await fetch('https://recitgames-api.vercel.app/api/verify-code',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({code})});
     const data=await res.json();
-    if(data.valid){
-      G.nbChoix=0;if(data.admin)G.adminMode=true;
-      document.getElementById('code-overlay')?.remove();
-      ajouterRecit(`<p style="color:var(--vert);font-family:var(--mono);font-size:11px;letter-spacing:2px;">✓ ${data.admin?'Accès admin activé.':'Code validé. La traque continue.'}</p>`);
-    }else{msgEl.textContent='Code invalide.';btn.disabled=false;btn.textContent='Valider';}
+    if(data.valid){G.nbChoix=0;if(data.admin)G.adminMode=true;document.getElementById('btn-envoyer').disabled=false;document.getElementById('input-joueur').disabled=false;document.getElementById('code-overlay')?.remove();ajouterRecit(`<p style="color:#4a9a4a;font-family:var(--mono);font-size:11px;letter-spacing:2px;">✓ Code validé. La mission continue.</p>`);}
+    else{msgEl.textContent='Code invalide.';btn.disabled=false;btn.textContent='Valider';}
   }catch(err){msgEl.textContent='Erreur de connexion.';btn.disabled=false;btn.textContent='Valider';}
 }
-
-// ── STREAMING via proxy Vercel ──
 async function streamerMessage(msg){
   G.historique.push({role:'user',content:msg});
   const recit=document.getElementById('recit');
-  const entree=document.createElement('div');entree.className='entree';
-  recit.appendChild(entree);recit.scrollTop=entree.offsetTop-20;
+  const entree=document.createElement('div');entree.className='entree';recit.appendChild(entree);recit.scrollTop=entree.offsetTop-20;
   const sp=document.createElement('p');entree.appendChild(sp);
   const cur=document.createElement('span');cur.className='curseur';sp.appendChild(cur);
   let full='';
   try{
-    const res=await fetch('/api/chat',{
-      method:'POST',
-      headers:{'Content-Type':'application/json'},
-      body:JSON.stringify({system:construireSP(),messages:G.historique,max_tokens:1400})
-    });
+    const res=await fetch('/api/chat',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({system:construireSP(),messages:G.historique,max_tokens:1000})});
     if(!res.ok){const e=await res.json().catch(()=>({}));throw new Error(e.error||`Erreur ${res.status}`);}
-    const reader=res.body.getReader();const dec=new TextDecoder('utf-8',{fatal:false});
-    let buffer='';
-    while(true){
-      const{done,value}=await reader.read();if(done)break;
-      buffer+=dec.decode(value,{stream:true});
-      const lignes=buffer.split('\n');buffer=lignes.pop();
-      for(const ligne of lignes){
-        if(!ligne.startsWith('data: '))continue;
-        const d=ligne.slice(6).trim();if(d==='[DONE]')continue;
-        try{const p=JSON.parse(d);if(p.type==='content_block_delta'&&p.delta?.text){full+=p.delta.text;sp.textContent=full;sp.appendChild(cur);}}catch(e){}
-      }
-    }
-    cur.remove();
-    G.historique.push({role:'assistant',content:full});
-    if(G.historique.length>20)G.historique=G.historique.slice(-20);
-    entree.innerHTML=parserReponse(full);
-    autoSave();
-  }catch(err){
-    cur.remove();
-    entree.innerHTML=`<p style="color:var(--rouge-vif);font-family:var(--mono);font-size:12px;">Erreur : ${err.message}</p>`;
-  }
+    const reader=res.body.getReader();const dec=new TextDecoder('utf-8',{fatal:false});let buffer='';
+    while(true){const{done,value}=await reader.read();if(done)break;buffer+=dec.decode(value,{stream:true});const lignes=buffer.split('\n');buffer=lignes.pop();for(const ligne of lignes){if(!ligne.startsWith('data: '))continue;const d=ligne.slice(6).trim();if(d==='[DONE]')continue;try{const p=JSON.parse(d);if(p.type==='content_block_delta'&&p.delta?.text){full+=p.delta.text;sp.textContent=full;sp.appendChild(cur);}}catch(e){}}}
+    cur.remove();G.historique.push({role:'assistant',content:full});if(G.historique.length>20)G.historique=G.historique.slice(-20);
+    entree.innerHTML=parserReponse(full);autoSave();
+  }catch(err){cur.remove();entree.innerHTML=`<p style="color:var(--rouge-vif);font-family:var(--mono);font-size:12px;">Erreur : ${err.message}</p>`;}
 }
 function ajouterRecit(html){const recit=document.getElementById('recit');const e=document.createElement('div');e.className='entree';e.innerHTML=html;recit.appendChild(e);recit.scrollTop=recit.scrollHeight;}
 async function envoyerMessage(msg){
   if(!msg.trim())return;
+  const btn=document.getElementById('btn-envoyer');const inp=document.getElementById('input-joueur');
+  btn.disabled=true;if(G.mode!=='boutons')inp.disabled=true;
   const recit=document.getElementById('recit');
   if(recit.children.length>0){const sep=document.createElement('div');sep.className='entree';sep.innerHTML='<hr class="sep"/>';recit.appendChild(sep);}
   ajouterRecit(`<div class="action-joueur">▸ ${msg}</div>`);
-  if(!G.adminMode)G.nbChoix++;
+  inp.value='';if(!G.adminMode)G.nbChoix++;
   await streamerMessage(msg);
+  btn.disabled=false;if(G.mode!=='boutons')inp.disabled=false;
+  if(window.innerWidth>700&&G.mode!=='boutons')inp.focus();
 }
 function envoyerChoix(i){const t=window._choix&&window._choix[i];if(t)envoyerMessage(t);}
 async function envoyerPremier(){
-  miseAJourUI();
-  const msg=G.perso==='homme'?`Je commence Vengeance. Je suis ${G.prenom}, un homme. Ma famille a été assassinée. Génère l'organisation aléatoirement et commence l'Acte 1 à New York.`:`Je commence Vengeance. Je suis ${G.prenom}, une femme. Je me venge d'un abus commis par un homme puissant. Génère l'organisation aléatoirement et commence l'Acte 1 à New York.`;
-  await streamerMessage(msg);
+  const nomCible=NOMS_CIBLES[G.cible]||G.cible;
+  const msg=`Je commence Vengeance. Je suis ${G.prenom}. Je reviens en France après 8 ans. Ma cible principale : ${nomCible}. Mon approche : ${G.approche==='ombre'?'dans l\'ombre — discrétion totale':'par la force — direct et assumé'}. Phase 1 — le retour. Commence l'histoire.`;
+  miseAJourUI();await streamerMessage(msg);
 }
-
-window.addEventListener('load',()=>{
-  const save=charger();
-  if(save&&save.historique&&save.historique.length>0)document.getElementById('btn-reprendre-intro').style.display='block';
-});
+document.getElementById('btn-envoyer').addEventListener('click',()=>{envoyerMessage(document.getElementById('input-joueur').value);});
+document.getElementById('input-joueur').addEventListener('keydown',e=>{if(e.key==='Enter'&&!e.shiftKey){e.preventDefault();envoyerMessage(e.target.value);}});
+document.getElementById('input-joueur').style.display='none';
+window.addEventListener('load',()=>{const save=charger();if(save&&save.historique&&save.historique.length>0)document.getElementById('btn-reprendre-intro').style.display='block';});
 </script>
 </body>
 </html>
